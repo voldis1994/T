@@ -3,47 +3,63 @@
 Automātisks 1m supply/demand + struktūras robots ar profesionālu dashboard.  
 Pieslēgums caur **Capital.com REST API**. Plūsma: tu atver pirmo treidu app → robots pārņem.
 
-## Ātrais starts
+## Windows (CMD) — ieteicamais veids
+
+1. Uzliec **Python 3.12 vai 3.13** no [python.org](https://www.python.org/downloads/)  
+   (atzīmē **Add python.exe to PATH**). **Izvairies no Python 3.14**, ja iespējams.
+2. Atver mapi `T-main` un palaid:
+
+```bat
+setup.bat
+run.bat
+```
+
+3. Atver pārlūkā **http://127.0.0.1:8080**
+
+### Ja `pip` rāda Permission denied
+Nepalaid `pip` uz sistēmas Python — izmanto `setup.bat` (tas veido `.venv` un `--no-cache-dir`).
+
+### Windows CMD kļūdas (ko NEizmantot)
+| Linux / macOS | Windows CMD |
+|---|---|
+| `cp .env.example .env` | `copy .env.example .env` |
+| `PYTHONPATH=. python -m shadow.main` | `run.bat` vai `python start.py` |
+| `source .venv/bin/activate` | `.venv\Scripts\activate.bat` |
+
+## Linux / macOS
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env   # aizpildi API datus (vai palaid paper režīmā bez tiem)
-python -m shadow.main
+cp .env.example .env
+python start.py
 ```
 
-Atver **http://127.0.0.1:8080**
+## Bez API atslēgām
+Dashboard strādā **paper** režīmā. Spied **Simulēt pirmo treidu** — tas ir handover.
 
-### Bez API atslēgām
-Dashboard strādā **paper** režīmā ar sintētisku EURUSD. Spied **Simulēt pirmo treidu** — tas ir handover.
-
-### Ar Capital.com
+## Ar Capital.com
 1. Settings → API Integrations → Generate key  
 2. Ievadi atslēgu, e-pastu un API paroli dashboard formā (vai `.env`)  
 3. Izvēlies `demo` vai `live`  
 4. Atver **pirmo treidu** Capital.com app uz to pašu instrumentu  
 5. Robots ierauga pozīciju, uzliek strukturālo SL/TP un turpina tirgot
 
-## Stratēģijas edge (no tavām shēmām)
+## Stratēģijas edge
 
 | Modulis | Ko dara |
 |---------|---------|
 | `structure.py` | HH/HL/LH/LL, BOS, CHOCH |
-| `zones.py` | Base → impulse supply/demand zonas + kvalitāte |
-| `candles.py` | Pin bar, engulfing, impulse, rejection series |
+| `zones.py` | Base → impulse supply/demand zonas |
+| `candles.py` | Pin bar, engulfing, impulse |
 | `scenarios.py` | TREND / RANGE / BREAKOUT / RETEST / REVERSAL / FAKEOUT |
-| `brackets.py` | Strukturāls SL/TP katram režīmam, min R:R 1.5 |
-| `fusion.py` | Confluence score + decision feature vector |
-| `brain.py` | Lēmumu vārti (data, regime, news, session, RR, handover) |
-| `handover.py` | Gaida tavu pirmo app treidu, tad ACTIVE |
+| `brackets.py` | Strukturāls SL/TP, min R:R 1.5 |
+| `fusion.py` | Confluence + feature vector |
+| `brain.py` | Lēmumu vārti |
+| `handover.py` | Gaida pirmo app treidu, tad ACTIVE |
 
-**Limiti:** nav dienas zaudējumu / treidu skaita / riska % limitu (pēc tava pieprasījuma).  
-Katram treidam joprojām ir **metodikas SL/TP** — bez tiem nav edge.
-
-## Dashboard
-
-Viss paredzams vienā skatā: cena, signāls, regime, confluence, lēmumu vārti, zonas, SL/TP, pozīcijas, konts, žurnāls, API forma.
+**Limiti:** nav dienas / treidu skaita / riska % limitu. Katram treidam ir metodikas SL/TP.
 
 ## API (lokāli)
 
