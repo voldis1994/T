@@ -11,10 +11,12 @@ Pieslēgums caur **Capital.com REST API**. Plūsma: tu atver pirmo treidu app �
 
 ```bat
 setup.bat
-run.bat
+start.bat
 ```
 
-3. Atver pārlūkā **http://127.0.0.1:8080**
+`start.bat` pats palaidīs robotu un atvērs **http://127.0.0.1:8080** (neraksti `htpp`).  
+CMD logu neatver — tur strādā serveris.
+
 4. Dashboardā **Reģistrē SHADOW** — ievadi Capital.com API key, e-pastu un API paroli (saglabājas `.env`)
 
 ### Ja `pip` rāda Permission denied
