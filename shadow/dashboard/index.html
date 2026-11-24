@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SHADOW · Capital.com</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <header class="top">
+    <div class="brand">
+      <div class="mark" aria-hidden="true"></div>
+      <div>
+        <h1>SHADOW</h1>
+        <p class="tag">Virtuālais pētniecības robots · Capital.com 1m</p>
+      </div>
+    </div>
+    <div class="top-status">
+      <span id="modePill" class="pill wait">WAITING</span>
+      <span id="connPill" class="pill dim">DISCONNECTED</span>
+      <span id="sessionPill" class="pill dim">SESSION</span>
+      <span id="clock" class="clock mono">--:--:-- UTC</span>
+    </div>
+  </header>
+
+  <main class="grid">
+    <!-- Hero strip: price + signal -->
+    <section class="panel hero" aria-label="Tirgus">
+      <div class="hero-left">
+        <div class="epic" id="epic">EURUSD</div>
+        <div class="price mono" id="price">—</div>
+        <div class="quote mono">
+          <span>BID <b id="bid">—</b></span>
+          <span>ASK <b id="ask">—</b></span>
+          <span>SPR <b id="spread">—</b></span>
+        </div>
+      </div>
+      <div class="hero-signal">
+        <div class="label">Signāls</div>
+        <div id="signal" class="signal HOLD">HOLD</div>
+        <div class="meta mono">
+          <span>Regime <b id="regime">—</b></span>
+          <span>Struktūra <b id="structure">—</b></span>
+          <span>Confluence <b id="confluence">0.00</b></span>
+        </div>
+      </div>
+      <div class="hero-actions">
+        <button id="btnHandoverBuy" class="btn primary">Simulēt pirmo treidu (BUY)</button>
+        <button id="btnHandoverSell" class="btn">Simulēt pirmo treidu (SELL)</button>
+        <button id="btnHandoverReset" class="btn">Reset handover (tests)</button>
+        <p class="hint" id="message">Gaida startu</p>
+      </div>
+    </section>
+
+    <!-- Chart -->
+    <section class="panel chart-panel" aria-label="1m grafiks">
+      <div class="panel-h">
+        <h2>1m OHLC + zonas</h2>
+        <span class="mono muted" id="barCount">0 bars</span>
+      </div>
+      <canvas id="chart" width="900" height="340"></canvas>
+      <div class="legend">
+        <span class="lg demand">Demand</span>
+        <span class="lg supply">Supply</span>
+        <span class="lg ema">EMA 9/21</span>
+      </div>
+    </section>
+
+    <!-- Decision gates -->
+    <section class="panel" aria-label="Lēmumu vārti">
+      <div class="panel-h"><h2>Lēmumu vārti</h2></div>
+      <ul id="gates" class="gates"></ul>
+      <div class="reasons mono" id="reasons"></div>
+    </section>
+
+    <!-- Brackets -->
+    <section class="panel" aria-label="SL TP">
+      <div class="panel-h"><h2>SL / TP brackets</h2></div>
+      <div id="brackets" class="brackets empty">Nav aktīva setup</div>
+    </section>
+
+    <!-- Account -->
+    <section class="panel" aria-label="Konts">
+      <div class="panel-h"><h2>Konts</h2></div>
+      <div class="stats">
+        <div><span>Bilance</span><b class="mono" id="bal">—</b></div>
+        <div><span>Pieejams</span><b class="mono" id="avail">—</b></div>
+        <div><span>P&amp;L</span><b class="mono" id="pnl">—</b></div>
+        <div><span>Winrate</span><b class="mono" id="winrate">—</b></div>
+        <div><span>Net</span><b class="mono" id="net">—</b></div>
+        <div><span>Open</span><b class="mono" id="openN">0</b></div>
+      </div>
+    </section>
+
+    <!-- Positions -->
+    <section class="panel wide" aria-label="Pozīcijas">
+      <div class="panel-h"><h2>Atvērtās pozīcijas</h2></div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Deal</th><th>Virziens</th><th>Ieeja</th><th>Size</th><th>UPL</th><th>SL</th><th>TP</th></tr>
+          </thead>
+          <tbody id="positions"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Zones -->
+    <section class="panel" aria-label="Zonas">
+      <div class="panel-h"><h2>Supply / Demand</h2></div>
+      <div id="zones" class="zone-list"></div>
+    </section>
+
+    <!-- Indicators -->
+    <section class="panel" aria-label="Indikatori">
+      <div class="panel-h"><h2>Indikatori</h2></div>
+      <div class="stats compact" id="indicators"></div>
+    </section>
+
+    <!-- Trades log -->
+    <section class="panel wide" aria-label="Žurnāls">
+      <div class="panel-h"><h2>Treidu / lēmumu žurnāls</h2></div>
+      <div class="log mono" id="log"></div>
+    </section>
+
+    <!-- Settings -->
+    <section class="panel wide settings" aria-label="API">
+      <div class="panel-h"><h2>Capital.com API pieslēgums</h2></div>
+      <form id="credsForm" class="creds">
+        <label>API Key<input name="api_key" autocomplete="off" placeholder="X-CAP-API-KEY" /></label>
+        <label>Identifier (e-pasts)<input name="identifier" autocomplete="username" placeholder="you@email.com" /></label>
+        <label>API parole<input name="password" type="password" autocomplete="current-password" /></label>
+        <label>Vide
+          <select name="env">
+            <option value="demo">DEMO</option>
+            <option value="live">LIVE</option>
+          </select>
+        </label>
+        <label>Epic<input name="epic" value="EURUSD" /></label>
+        <label>Size<input name="size" type="number" value="1000" step="1" /></label>
+        <button type="submit" class="btn primary">Pieslēgt un restartēt</button>
+      </form>
+      <p class="hint">
+        Plūsma: tu fiziski atver <b>pirmo treidu</b> Capital.com app → robots to ierauga caur API →
+        uzliek strukturālo SL/TP → turpina tirgot bez dienas/treidu/riska % limitu.
+        Katram treidam joprojām ir metodikas SL/TP (edge).
+      </p>
+      <div class="news-row">
+        <span>Ziņu risks:</span>
+        <button type="button" data-news="ok" class="btn tiny">OK</button>
+        <button type="button" data-news="high" class="btn tiny">HIGH</button>
+        <button type="button" data-news="blocked" class="btn tiny">BLOCK</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span>SHADOW v1.0 · 1m zonas · struktūra · scenāriji · Capital.com REST</span>
+    <span id="handoverAt" class="mono muted"></span>
+  </footer>
+  <script src="/static/app.js"></script>
+</body>
+</html>

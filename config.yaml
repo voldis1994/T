@@ -1,0 +1,68 @@
+# SHADOW — Virtuālais / Live pētniecības un izpildes robots
+# Stratēģija: 1m supply/demand zonas + struktūra + scenāriji (no metodikas)
+
+instrument:
+  epic: EURUSD
+  peers:
+    - USDOLLAR   # DXY proxy, ja pieejams kontā
+    - GOLD
+    - US500
+  resolutions:
+    - MINUTE
+    - MINUTE_5
+    - MINUTE_15
+    - HOUR
+  history_bars: 300
+
+handover:
+  # Robots gaida, kamēr lietotājs fiziski atver pirmo treidu Capital.com app
+  enabled: true
+  poll_seconds: 2
+  # Pēc pirmās pozīcijas noteikšanas — pārņem vadību
+  manage_user_position: true
+  # Turpināt atvērt jaunus treidus pēc handover
+  continue_trading: true
+
+risk:
+  # Lietotāja prasība: bez dienas / treidu skaita / riska % limitu
+  daily_loss_limit: null
+  max_trades_per_day: null
+  risk_percent: null
+  # Stratēģijas edge: katram treidam strukturāls SL/TP (nevis fikss pip skaits)
+  require_structural_sl_tp: true
+  min_rr: 1.5
+  default_size: 1000
+  # Spread / noise buferis (punkti) 1m
+  structure_buffer_points: 0.00005
+  spread_buffer_points: 0.00002
+
+analysis:
+  swing_lookback: 3
+  impulse_body_atr_mult: 1.4
+  impulse_min_bars: 2
+  zone_max_base_bars: 12
+  zone_min_quality: 0.45
+  pin_wick_ratio: 2.0
+  engulf_min_body_ratio: 1.0
+  atr_period: 14
+  ema_fast: 9
+  ema_slow: 21
+  ema_trend: 50
+  rsi_period: 14
+  confluence_min_score: 0.55
+
+sessions:
+  # Spēcīgākā likviditāte (UTC)
+  london: ["07:00", "16:00"]
+  newyork: ["12:00", "21:00"]
+  prefer_sessions: true
+
+engine:
+  loop_seconds: 5
+  paper_mode_without_credentials: true
+  decision_log_path: logs/decisions.jsonl
+  trades_log_path: logs/trades.jsonl
+
+dashboard:
+  title: "SHADOW · Capital.com"
+  refresh_ms: 1000

@@ -1,0 +1,317 @@
+﻿Nr.;Kategorija;Indikators;Skaidrojums
+1;Trenda indikatori;SMA — Simple Moving Average;"Vienkāršais slīdošais vidējais; izlīdzina cenu un rāda tās kopējo virzienu."
+2;Trenda indikatori;EMA — Exponential Moving Average;"Piešķir lielāku svaru jaunākajām cenām; reaģē ātrāk nekā SMA."
+3;Trenda indikatori;WMA — Weighted Moving Average;Lineāri svērts vidējais, kurā jaunākām cenām ir lielāks svars.
+4;Trenda indikatori;DEMA — Double EMA;Divu EMA kombinācija, kas samazina aizkavēšanos.
+5;Trenda indikatori;TEMA — Triple EMA;Trīs EMA kombinācija ar samazinātu aizkavēšanos.
+6;Trenda indikatori;HMA — Hull Moving Average;Svērto vidējo kombinācija, kas līdzsvaro ātrumu un izlīdzināšanu.
+7;Trenda indikatori;SMMA — Smoothed Moving Average;Izlīdzināts vidējais, kas lēnāk reaģē uz cenu troksni.
+8;Trenda indikatori;RMA — Running Moving Average;"Wilder izlīdzinājums ar koeficientu 1/n; lietots arī RSI un ATR."
+9;Trenda indikatori;VWMA — Volume Weighted Moving Average;Vidējā cena, kur katras sveces svaru nosaka tās apjoms.
+10;Trenda indikatori;KAMA — Kaufman Adaptive Moving Average;Pielāgo izlīdzināšanu atkarībā no cenas kustības efektivitātes.
+11;Trenda indikatori;ALMA — Arnaud Legoux Moving Average;Izmanto Gausa tipa svaru sadalījumu ar regulējamu nobīdi.
+12;Trenda indikatori;LSMA — Least Squares Moving Average;Slīdošās lineārās regresijas gala vērtība.
+13;Trenda indikatori;ZLEMA — Zero Lag EMA;Koriģē EMA ievades datus, lai mazinātu aizkavēšanos, bet to neizslēdz.
+14;Trenda indikatori;FRAMA — Fractal Adaptive Moving Average;Pielāgo vidējās līnijas jutīgumu fraktālajai dimensijai.
+15;Trenda indikatori;VIDYA — Variable Index Dynamic Average;Pielāgo vidējā ātrumu tirgus momentuma vai svārstīguma izmaiņām atkarībā no versijas.
+16;Trenda indikatori;TMA — Triangular Moving Average;Divkārši izlīdzināts vidējais, kas lielāku svaru piešķir perioda vidum.
+17;Trenda indikatori;T3 — Tillson Moving Average;Vairāku EMA kombinācija ar regulējamu izlīdzinājumu.
+18;Trenda indikatori;McGinley Dynamic;Maina reakcijas ātrumu atbilstoši cenas attiecībai pret vidējo.
+19;Trenda indikatori;JMA — Jurik Moving Average;"Proprietārs adaptīvs vidējais; publiskie atdarinājumi var atšķirties."
+20;Trenda indikatori;GMMA — Guppy Multiple Moving Average;"Ātru un lēnu EMA grupas; to atdalīšanās vai saplūšana raksturo trendu."
+21;Trenda indikatori;Supertrend;ATR balstīta līnija, kas pārslēdzas starp augšupejas un lejupejas režīmiem.
+22;Trenda indikatori;MACD — Moving Average Convergence Divergence;Divu EMA starpība, signāllīnija un histogramma raksturo trendu un momentumu.
+23;Trenda indikatori;ADX — Average Directional Index;"Mēra trenda spēku, nevis virzienu; 20–25 bieži lieto kā orientieri."
+24;Trenda indikatori;DMI — Directional Movement Index;+DI un −DI salīdzina augšupejošo un lejupejošo virziena kustību.
+25;Trenda indikatori;ADXR — Average Directional Movement Index Rating;Izlīdzina pašreizējo un agrāko ADX vērtību.
+26;Trenda indikatori;Ichimoku Cloud;Piecu līniju sistēma trenda, momentuma un iespējamo atbalsta/pretestības zonu analīzei.
+27;Trenda indikatori;Parabolic SAR;Punkti virs vai zem cenas norāda trenda režīmu un dinamisku stopa līmeni.
+28;Trenda indikatori;Aroon;Mēra, cik nesen periodā sasniegts maksimums vai minimums.
+29;Trenda indikatori;Aroon Oscillator;Aroon Up un Aroon Down starpība.
+30;Trenda indikatori;Vortex Indicator;Pozitīvās un negatīvās virziena kustības salīdzinājums.
+31;Trenda indikatori;TRIX;Trīskārši izlīdzinātas EMA procentuālais izmaiņu ātrums.
+32;Trenda indikatori;Williams Alligator;"Trīs nobīdīti izlīdzināti vidējie; līniju atvēršanās norāda uz virziena kustību."
+33;Trenda indikatori;Gator Oscillator;Ataino Alligator līniju savstarpējos attālumus.
+34;Trenda indikatori;Elder Impulse System;Apvieno EMA slīpumu ar MACD histogrammas izmaiņām.
+35;Trenda indikatori;SSL Channel;"Maksimumu un minimumu vidējo līniju kanāls; ir vairākas realizācijas."
+36;Trenda indikatori;OTT — Optimized Trend Tracker;"Adaptīvs vidējais un dinamiska trenda robeža; parametri atkarīgi no versijas."
+37;Trenda indikatori;HalfTrend;Trenda pārslēgšanās līnija, bieži izmantojot cenas ekstrēmus un ATR.
+38;Trenda indikatori;Trend Magic;CCI un ATR kombinācija trenda režīma noteikšanai.
+39;Trenda indikatori;UT Bot Alerts;"ATR balstīta sekojoša stopa krustojumu signāli; realizācijas atšķiras."
+40;Trenda indikatori;Schaff Trend Cycle;MACD un cikliska stochastic tipa normalizācija.
+41;Trenda indikatori;Linear Regression;Statistiski pielāgota taisne cenas tendences novērtēšanai.
+42;Trenda indikatori;ZigZag;"Savieno nozīmīgus cenas ekstrēmus; pēdējais posms var mainīties."
+43;Trenda indikatori;Moving Average Ribbon;"Vairāki slīdošie vidējie vienlaikus; parāda trenda struktūru."
+44;Trenda indikatori;Moving Average Envelope;Procentuālas robežas virs un zem slīdošā vidējā.
+45;Trenda indikatori;Chande Kroll Stop;ATR un cenas ekstrēmu balstītas dinamiskas stopa līnijas.
+46;Trenda indikatori;Chandelier Exit;Stopa līmenis, kas attālināts no perioda maksimuma vai minimuma par ATR reizinājumu.
+47;Trenda indikatori;VSTOP — Volatility Stop;Svārstīgumam pielāgots sekojošais stopa indikators.
+48;Trenda indikatori;Turtle Trading Channels;Iepriekšējo maksimumu/minimumu izlaušanās līmeņi un atšķirīgi izejas periodi.
+49;Trenda indikatori;Price Channel;Perioda augstākās un zemākās cenas robežas.
+50;Trenda indikatori;MAMA / FAMA;Ehlers adaptīvo vidējo pāris, kas izmanto fāzes izmaiņas.
+51;Trenda indikatori;Sine Weighted Moving Average;Izmanto sinusa funkcijas svarus cenas izlīdzināšanai.
+52;Trenda indikatori;Ehlers Super Smoother;Digitāls zemfrekvences filtrs cenas trokšņa mazināšanai.
+53;Momentuma indikatori;RSI — Relative Strength Index;"Skala 0–100; 70 un 30 tradicionāli ir pārpirkuma un pārpārdotības orientieri, nevis garantēta reversija."
+54;Momentuma indikatori;Stochastic RSI;"RSI pozīcija tā nesenajā diapazonā; jutīgāks par parasto RSI."
+55;Momentuma indikatori;Stochastic Oscillator;Slēgšanas cenas pozīcija nesenajā augstākās un zemākās cenas diapazonā.
+56;Momentuma indikatori;KDJ;Stochastic K un D līnijas papildina J līnija, kas pastiprina atšķirības.
+57;Momentuma indikatori;CCI — Commodity Channel Index;Tipiskās cenas novirze no vidējā attiecībā pret vidējo absolūto novirzi.
+58;Momentuma indikatori;Williams %R;Slēgšanas cenas pozīcija nesenajā diapazonā skalā no −100 līdz 0.
+59;Momentuma indikatori;ROC — Rate of Change;Cenas procentuālā izmaiņa pret cenu pirms n periodiem.
+60;Momentuma indikatori;MOM — Momentum;Pašreizējās cenas un cenas pirms n periodiem starpība.
+61;Momentuma indikatori;AO — Awesome Oscillator;5 un 34 periodu mediānas cenas SMA starpība.
+62;Momentuma indikatori;AC — Accelerator Oscillator;"AO un tā īstermiņa vidējā starpība; momentuma izmaiņas."
+63;Momentuma indikatori;TSI — True Strength Index;Divkārši izlīdzināts cenas izmaiņu rādītājs.
+64;Momentuma indikatori;CMO — Chande Momentum Oscillator;Pozitīvo un negatīvo cenas izmaiņu summu attiecība.
+65;Momentuma indikatori;Ultimate Oscillator;Apvieno pirkšanas spiedienu trīs periodos.
+66;Momentuma indikatori;PPO — Percentage Price Oscillator;Divu vidējo starpība procentos no lēnākā vidējā.
+67;Momentuma indikatori;APO — Absolute Price Oscillator;Divu vidējo starpība cenas vienībās.
+68;Momentuma indikatori;DPO — Detrended Price Oscillator;Noņem daļu trenda ietekmes, lai izceltu vēsturiskos ciklus.
+69;Momentuma indikatori;KST — Know Sure Thing;Vairāku izlīdzinātu ROC vērtību svērta summa.
+70;Momentuma indikatori;Coppock Curve;Izlīdzināta divu ilgāka perioda ROC vērtību summa.
+71;Momentuma indikatori;Fisher Transform;Normalizētas cenas nelineāra transformācija, kas izceļ ekstrēmus.
+72;Momentuma indikatori;Connors RSI;Apvieno cenas RSI, secīgu kāpumu/kritumu RSI un izmaiņu procentuālo rangu.
+73;Momentuma indikatori;DeMarker;Salīdzina secīgu sveču maksimumu un minimumu izmaiņas.
+74;Momentuma indikatori;RVI — Relative Vigor Index;Salīdzina slēgšanas un atvēršanas starpību ar sveces diapazonu.
+75;Momentuma indikatori;SMI — Stochastic Momentum Index;Izlīdzināta slēgšanas cenas novirze no diapazona viduspunkta.
+76;Momentuma indikatori;WaveTrend Oscillator;"Normalizē un izlīdzina cenas novirzi no vidējā; izmanto momentuma ekstrēmu analīzei."
+77;Momentuma indikatori;QQE — Quantitative Qualitative Estimation;Izlīdzināts RSI ar adaptīvām sekojošām robežām.
+78;Momentuma indikatori;Laguerre RSI;RSI tipa oscilators ar Laguerre digitālo filtru.
+79;Momentuma indikatori;Bull Power;Maksimuma un EMA starpība.
+80;Momentuma indikatori;Bear Power;Minimuma un EMA starpība.
+81;Momentuma indikatori;Balance of Power;Sveces ķermeņa attiecība pret diapazonu, bieži izlīdzināta.
+82;Momentuma indikatori;Qstick;Atvēršanas un slēgšanas cenas starpības vidējais, parasti close mīnus open.
+83;Momentuma indikatori;IMI — Intraday Momentum Index;Salīdzina pozitīvo un negatīvo sveču ķermeņus.
+84;Momentuma indikatori;PMO — Price Momentum Oscillator;Izlīdzināts cenas procentuālo izmaiņu rādītājs.
+85;Momentuma indikatori;RCI — Rank Correlation Index;Cenas un laika rangu korelācija.
+86;Momentuma indikatori;Pretty Good Oscillator;Cenas novirze no vidējā, normalizēta ar ATR vai līdzīgu svārstīguma rādītāju.
+87;Momentuma indikatori;Elliott Wave Oscillator;Ātrā un lēnā slīdošā vidējā starpība viļņu analīzei.
+88;Momentuma indikatori;SMI Ergodic;TSI tipa normalizēta momentuma līnija ar signāllīniju.
+89;Momentuma indikatori;RSX;"Proprietāra izlīdzināta RSI tipa oscilatora nosaukums; versijas atšķiras."
+90;Momentuma indikatori;Psychological Line;Augošu sveču īpatsvars noteiktā periodā.
+91;Momentuma indikatori;Relative Momentum Index;RSI tipa aprēķins ar vairāku periodu cenas starpību.
+92;Momentuma indikatori;Dynamic Momentum Index;RSI variants, kura periods pielāgojas svārstīgumam.
+93;Momentuma indikatori;MACD-V;MACD vērtība, normalizēta ar ATR, salīdzināmākam momentumam.
+94;Svārstīguma indikatori (Volatility);TR — True Range;Lielākais no sveces diapazona un attālumiem no iepriekšējās slēgšanas cenas līdz ekstrēmiem.
+95;Svārstīguma indikatori (Volatility);ATR — Average True Range;"Vidējais patiesais diapazons; rāda kustības lielumu, nevis virzienu."
+96;Svārstīguma indikatori (Volatility);NATR — Normalized ATR;ATR procentos no slēgšanas cenas.
+97;Svārstīguma indikatori (Volatility);Bollinger Bands;"Slīdošais vidējais ar standartnovirzes robežām; rāda relatīvu cenas pozīciju un diapazona platumu."
+98;Svārstīguma indikatori (Volatility);Bollinger %B;"Cenas pozīcija starp Bollinger robežām; ārpus kanāla var būt zem 0 vai virs 1."
+99;Svārstīguma indikatori (Volatility);Bollinger Bandwidth;Bollinger kanāla platums attiecībā pret viduslīniju.
+100;Svārstīguma indikatori (Volatility);Keltner Channels;Vidējā līnija un ATR vai diapazona balstītas robežas.
+101;Svārstīguma indikatori (Volatility);Donchian Channels;"Perioda augstākā un zemākā cena; izlaušanās un diapazona analīze."
+102;Svārstīguma indikatori (Volatility);TTM Squeeze;"Salīdzina Bollinger un Keltner kanālus; identificē relatīvu svārstīguma saspiešanos."
+103;Svārstīguma indikatori (Volatility);Standard Deviation;Cenas vai atdeves izkliedes mērs.
+104;Svārstīguma indikatori (Volatility);Historical Volatility;Vēsturisko atdevju svārstīgums, bieži pārrēķināts gada izteiksmē.
+105;Svārstīguma indikatori (Volatility);Relative Volatility Index;"RVI svārstīguma versija; salīdzina augšupejošu un lejupejošu kustību standartnovirzes."
+106;Svārstīguma indikatori (Volatility);Chaikin Volatility;Mēra maksimuma un minimuma diapazona izlīdzinātās vērtības izmaiņas.
+107;Svārstīguma indikatori (Volatility);Ulcer Index;Mēra kritumu dziļumu un ilgumu no iepriekšējiem maksimumiem.
+108;Svārstīguma indikatori (Volatility);Mass Index;Diapazona paplašināšanās un sašaurināšanās, nevis trenda virziens.
+109;Svārstīguma indikatori (Volatility);Choppiness Index;Mēra, cik saraustīta vai virzienveidīga ir cenas kustība.
+110;Svārstīguma indikatori (Volatility);VHF — Vertical Horizontal Filter;Salīdzina perioda kopējo diapazonu ar secīgo cenu kustību summu.
+111;Svārstīguma indikatori (Volatility);Parkinson Volatility;Svārstīguma novērtējums no maksimumiem un minimumiem.
+112;Svārstīguma indikatori (Volatility);Garman–Klass Volatility;Izmanto OHLC datus svārstīguma novērtēšanai.
+113;Svārstīguma indikatori (Volatility);Rogers–Satchell Volatility;OHLC svārstīguma novērtējums, kas ņem vērā virziena kustību.
+114;Svārstīguma indikatori (Volatility);Yang–Zhang Volatility;Kombinē nakts starpības un dienas OHLC svārstīguma komponentes.
+115;Svārstīguma indikatori (Volatility);VIX — Volatility Index;S&P 500 opciju implicētā aptuveni 30 dienu svārstīguma indekss.
+116;Svārstīguma indikatori (Volatility);Volatility Percentile;Pašreizējā svārstīguma vērtības vēsturiskais procentuālais rangs.
+117;Svārstīguma indikatori (Volatility);Bollinger Band Squeeze;"Šaurs Bollinger kanāls attiecībā pret vēsturi; neparedz izlaušanās virzienu."
+118;Apjoms un naudas plūsma (Volume);Volume;"Darījumu daudzums vai apjoms periodā; Forex bieži tikai tick volume."
+119;Apjoms un naudas plūsma (Volume);Volume SMA;"Apjoma vidējais; palīdz atšķirt parastu un neparastu aktivitāti."
+120;Apjoms un naudas plūsma (Volume);RVOL — Relative Volume;Pašreizējais apjoms pret vidējo vai pret tā paša sesijas laika vēsturisko apjomu.
+121;Apjoms un naudas plūsma (Volume);OBV — On Balance Volume;Kumulatīvs apjoms ar plusa vai mīnusa zīmi atkarībā no cenas izmaiņas.
+122;Apjoms un naudas plūsma (Volume);MFI — Money Flow Index;RSI līdzīga tipiskās cenas un apjoma kombinācija skalā 0–100.
+123;Apjoms un naudas plūsma (Volume);CMF — Chaikin Money Flow;Apjoma svērta slēgšanas pozīcija sveces diapazonā.
+124;Apjoms un naudas plūsma (Volume);A/D — Accumulation Distribution Line;Kumulatīva apjoma plūsma pēc slēgšanas pozīcijas sveces diapazonā.
+125;Apjoms un naudas plūsma (Volume);Chaikin Oscillator;A/D līnijas ātrā un lēnā EMA starpība.
+126;Apjoms un naudas plūsma (Volume);Force Index;"Cenas izmaiņas reizinātas ar apjomu; bieži izlīdzinātas."
+127;Apjoms un naudas plūsma (Volume);EOM — Ease of Movement;Saista cenas diapazona viduspunkta kustību ar apjomu un diapazonu.
+128;Apjoms un naudas plūsma (Volume);VPT — Volume Price Trend;Kumulatīvs apjoms, svērts ar procentuālajām cenas izmaiņām.
+129;Apjoms un naudas plūsma (Volume);PVI — Positive Volume Index;Indekss mainās periodos, kad apjoms pieaug.
+130;Apjoms un naudas plūsma (Volume);NVI — Negative Volume Index;Indekss mainās periodos, kad apjoms samazinās.
+131;Apjoms un naudas plūsma (Volume);Klinger Oscillator;Izlīdzinātu apjoma spēka vērtību starpība.
+132;Apjoms un naudas plūsma (Volume);PVO — Percentage Volume Oscillator;Ātrā un lēnā apjoma vidējā procentuālā starpība.
+133;Apjoms un naudas plūsma (Volume);Volume Oscillator;Apjoma divu slīdošo vidējo starpība vai procentuālā attiecība.
+134;Apjoms un naudas plūsma (Volume);Volume ROC;Apjoma procentuālā izmaiņa pret iepriekšējo periodu.
+135;Apjoms un naudas plūsma (Volume);VWAP — Volume Weighted Average Price;Kumulatīvā apjoma svērtā vidējā cena izvēlētā sesijā vai periodā.
+136;Apjoms un naudas plūsma (Volume);AVWAP — Anchored VWAP;VWAP, kas sākas no lietotāja izvēlēta notikuma vai sveces.
+137;Apjoms un naudas plūsma (Volume);VWAP Bands;Apjoma svērtās vidējās cenas novirzes robežas.
+138;Apjoms un naudas plūsma (Volume);Volume Profile;Apjoma sadalījums pa cenu līmeņiem, nevis tikai laiku.
+139;Apjoms un naudas plūsma (Volume);Fixed Range Volume Profile;Apjoma profils lietotāja izvēlētā laika intervālā.
+140;Apjoms un naudas plūsma (Volume);Session Volume Profile;Apjoma profils atsevišķai tirdzniecības sesijai.
+141;Apjoms un naudas plūsma (Volume);Visible Range Volume Profile;Apjoma profils pašlaik redzamajam grafika diapazonam.
+142;Apjoms un naudas plūsma (Volume);POC — Point of Control;Cenas līmenis ar lielāko apjomu izvēlētajā profilā.
+143;Apjoms un naudas plūsma (Volume);VAH — Value Area High;Izvēlētās apjoma vērtības zonas augšējā robeža.
+144;Apjoms un naudas plūsma (Volume);VAL — Value Area Low;Izvēlētās apjoma vērtības zonas apakšējā robeža.
+145;Apjoms un naudas plūsma (Volume);HVN — High Volume Node;Relatīvi liela apjoma mezgls profilā.
+146;Apjoms un naudas plūsma (Volume);LVN — Low Volume Node;Relatīvi maza apjoma mezgls profilā.
+147;Order flow, tirgus mikrostruktūra un likviditāte;Volume Delta;"Agresīvo pirkumu un pārdevumu apjoma starpība; no sveču datiem var būt tikai aplēse."
+148;Order flow, tirgus mikrostruktūra un likviditāte;CVD — Cumulative Volume Delta;"Kumulatīvā apjoma delta; salīdzināma ar cenas kustību."
+149;Order flow, tirgus mikrostruktūra un likviditāte;Footprint Chart;"Darījumu apjomi pirkšanas/pārdošanas pusē pa cenas līmeņiem; grafika veids."
+150;Order flow, tirgus mikrostruktūra un likviditāte;Bid/Ask Imbalance;"Pirkšanas un pārdošanas puses apjomu nesamērība; definīcija atkarīga no datiem."
+151;Order flow, tirgus mikrostruktūra un likviditāte;Stacked Imbalance;Vairāki secīgi cenu līmeņi ar vienas puses apjoma pārsvaru.
+152;Order flow, tirgus mikrostruktūra un likviditāte;DOM — Depth of Market;Redzamo limita orderu dziļums pa cenu līmeņiem.
+153;Order flow, tirgus mikrostruktūra un likviditāte;Order Book Imbalance;Redzamā bid un ask likviditātes apjoma attiecība.
+154;Order flow, tirgus mikrostruktūra un likviditāte;Liquidity Heatmap;"Vizualizē redzamo orderu koncentrāciju laika gaitā; orderi var tikt atcelti."
+155;Order flow, tirgus mikrostruktūra un likviditāte;Bid–Ask Spread;"Starpība starp labāko pirkšanas un pārdošanas kotāciju; darījumu izmaksu elements."
+156;Order flow, tirgus mikrostruktūra un likviditāte;Time and Sales;"Secīgu izpildīto darījumu lente; tirgus datu rīks."
+157;Order flow, tirgus mikrostruktūra un likviditāte;Absorption;"Liels agresīvo darījumu apjoms ar ierobežotu cenas kustību; interpretējams kā pretējās puses absorbcija."
+158;Order flow, tirgus mikrostruktūra un likviditāte;Exhaustion;"Agresīvās aktivitātes mazināšanās pie cenas ekstrēma; nav droša reversijas pazīme."
+159;Order flow, tirgus mikrostruktūra un likviditāte;Iceberg Detection;"Mēģina atpazīt atkārtoti papildinātus slēptā apjoma orderus; rezultāts ir aplēse."
+160;Order flow, tirgus mikrostruktūra un likviditāte;Liquidity Sweep;"Cenas kustība pāri iepriekšējam ekstrēmam ar iespējamu atgriešanos; neapstiprina konkrētu orderu izpildi bez datiem."
+161;Order flow, tirgus mikrostruktūra un likviditāte;Open Interest;"Neaizvērto atvasināto instrumentu kontraktu skaits; nav virziena indikators pats par sevi."
+162;Order flow, tirgus mikrostruktūra un likviditāte;OI Change;Atvērto kontraktu skaita izmaiņa periodā.
+163;Order flow, tirgus mikrostruktūra un likviditāte;Funding Rate;Periodiska maksājumu likme beztermiņa fjūčeros starp long un short pusēm.
+164;Order flow, tirgus mikrostruktūra un likviditāte;Liquidation Data;Ziņotie piespiedu pozīciju slēgšanas apjomi un līmeņi.
+165;Order flow, tirgus mikrostruktūra un likviditāte;Liquidation Heatmap;"Modelē potenciālo likvidāciju zonas; nav faktisku nākotnes likvidāciju karte."
+166;Order flow, tirgus mikrostruktūra un likviditāte;Futures Basis;Fjūčera un spot cenas starpība.
+167;Order flow, tirgus mikrostruktūra un likviditāte;Long/Short Ratio;"Platformas definēta long un short kontu vai pozīciju attiecība; metodika ir svarīga."
+168;Order flow, tirgus mikrostruktūra un likviditāte;Taker Buy/Sell Ratio;Agresīvo pirkumu un pārdošanas apjomu attiecība.
+169;Atbalsts, pretestība un tirgus struktūra;Pivot Points — Standard;No iepriekšējā perioda OHLC izveidoti centrālie un atbalsta/pretestības līmeņi.
+170;Atbalsts, pretestība un tirgus struktūra;Fibonacci Pivot Points;Pivot līmeņi ar Fibonacci koeficientiem.
+171;Atbalsts, pretestība un tirgus struktūra;Camarilla Pivot Points;Iepriekšējā perioda diapazona koeficienti ap slēgšanas cenu.
+172;Atbalsts, pretestība un tirgus struktūra;Woodie Pivot Points;"Pivot metode ar lielāku svaru izvēlētai cenai; formulas var atšķirties."
+173;Atbalsts, pretestība un tirgus struktūra;DeMark Pivot Points;Līmeņi, kuru aprēķins mainās pēc iepriekšējās sveces virziena.
+174;Atbalsts, pretestība un tirgus struktūra;Fibonacci Retracement;Proporcionāli korekcijas līmeņi starp diviem izvēlētiem cenas punktiem.
+175;Atbalsts, pretestība un tirgus struktūra;Fibonacci Extension;Proporcionāli iespējamie mērķa līmeņi ārpus izvēlētas kustības.
+176;Atbalsts, pretestība un tirgus struktūra;Fibonacci Time Zones;"Laika intervālu projekcijas pēc Fibonacci secības; nav uzticama prognoze pati par sevi."
+177;Atbalsts, pretestība un tirgus struktūra;Gann Fan;"Leņķu projekcijas no izvēlēta cenas punkta; atkarīgas no grafika mēroga."
+178;Atbalsts, pretestība un tirgus struktūra;Gann Square;Cenas un laika ģeometrisku attiecību analīzes metode.
+179;Atbalsts, pretestība un tirgus struktūra;Andrews Pitchfork;Trīs pivot punktu veidotas paralēlas mediānas kanāla līnijas.
+180;Atbalsts, pretestība un tirgus struktūra;Linear Regression Channel;Regresijas līnija ar novirzes robežām.
+181;Atbalsts, pretestība un tirgus struktūra;Support/Resistance;Vēsturiski cenu līmeņi vai zonas, kur reakcijas atkārtojušās.
+182;Atbalsts, pretestība un tirgus struktūra;Swing High / Swing Low;Lokālie cenas maksimumi un minimumi, definēti pēc izvēlēta loga.
+183;Atbalsts, pretestība un tirgus struktūra;Williams Fractals;"Parasti piecu sveču lokālie ekstrēmi; apstiprinājums rodas ar aizkavi."
+184;Atbalsts, pretestība un tirgus struktūra;HH / HL / LH / LL;"Augstāki maksimumi/minimumi un zemāki maksimumi/minimumi; tirgus struktūras apzīmējumi."
+185;Atbalsts, pretestība un tirgus struktūra;BOS — Break of Structure;"Iepriekšēja strukturālā ekstrēma pārvarēšana; definīcijas atšķiras."
+186;Atbalsts, pretestība un tirgus struktūra;CHoCH — Change of Character;"Iespējama struktūras rakstura maiņa; SMC interpretācija."
+187;Atbalsts, pretestība un tirgus struktūra;MSS — Market Structure Shift;Struktūras pārejas apzīmējums, bieži ar impulsīvu kustību.
+188;Atbalsts, pretestība un tirgus struktūra;Order Block;"SMC/ICT metodēs definēta potenciālas intereses svece vai zona; neapstiprina institūciju orderus."
+189;Atbalsts, pretestība un tirgus struktūra;FVG — Fair Value Gap;Trīs sveču nepārklāšanās zona starp pirmās un trešās sveces ekstrēmiem.
+190;Atbalsts, pretestība un tirgus struktūra;IFVG — Inverse Fair Value Gap;FVG zona, kuras sākotnējā loma pēc pārvarēšanas tiek interpretēta pretēji.
+191;Atbalsts, pretestība un tirgus struktūra;Breaker Block;SMC zona, kas pēc sākotnējās struktūras neveiksmes tiek interpretēta pretējā lomā.
+192;Atbalsts, pretestība un tirgus struktūra;Mitigation Block;"SMC apzīmējums iespējamai atkārtotas cenas pārbaudes zonai; definīcijas atšķiras."
+193;Atbalsts, pretestība un tirgus struktūra;Supply and Demand Zones;Cenas apgabali, no kuriem iepriekš sākusies izteikta kustība.
+194;Atbalsts, pretestība un tirgus struktūra;Premium / Discount Zones;Izvēlētā diapazona augšējā un apakšējā puse attiecībā pret 50% līmeni.
+195;Atbalsts, pretestība un tirgus struktūra;Equal Highs / Equal Lows;"Līdzīgi maksimumi vai minimumi; iespējamās likviditātes zonas, nevis pierādīti stopi."
+196;Atbalsts, pretestība un tirgus struktūra;Opening Range;Sesijas sākuma izvēlētā laika intervāla maksimums un minimums.
+197;Atbalsts, pretestība un tirgus struktūra;Initial Balance;Market Profile sākuma diapazons, bieži pirmā stunda.
+198;Atbalsts, pretestība un tirgus struktūra;Previous Day High/Low;Iepriekšējās dienas maksimums un minimums kā atsauces līmeņi.
+199;Atbalsts, pretestība un tirgus struktūra;Market Profile / TPO;Laika pavadīšanas sadalījums pa cenu līmeņiem, nevis darījumu apjoms.
+200;Cikli, statistika un kvantitatīvie indikatori;Hilbert Transform Dominant Cycle Period;Aplēš dominējošā cikla garumu no vēsturiskās cenas.
+201;Cikli, statistika un kvantitatīvie indikatori;Hilbert Transform Dominant Cycle Phase;Aplēš dominējošā cikla fāzi.
+202;Cikli, statistika un kvantitatīvie indikatori;Hilbert Transform SineWave;Fāzes balstītas sinusa līnijas cikliskuma analīzei.
+203;Cikli, statistika un kvantitatīvie indikatori;Hilbert Transform Trend Mode;Mēģina nošķirt ciklisku un trendējošu tirgu.
+204;Cikli, statistika un kvantitatīvie indikatori;Hilbert Transform Phasor;Cikla signāla fāzes komponentes.
+205;Cikli, statistika un kvantitatīvie indikatori;Ehlers Instantaneous Trendline;Digitāla filtra trenda līnija.
+206;Cikli, statistika un kvantitatīvie indikatori;Ehlers Roofing Filter;Filtrē ļoti īsas un ļoti garas svārstības, lai izceltu starpciklus.
+207;Cikli, statistika un kvantitatīvie indikatori;Autocorrelation;Salīdzina datu virkni ar tās agrākām vērtībām izvēlētā nobīdē.
+208;Cikli, statistika un kvantitatīvie indikatori;FFT — Fast Fourier Transform;"Frekvenču analīze; vēsturisko ciklu atrašana negarantē atkārtošanos."
+209;Cikli, statistika un kvantitatīvie indikatori;Wavelet Transform;Analizē signāla frekvences dažādos laika posmos.
+210;Cikli, statistika un kvantitatīvie indikatori;Hurst Exponent;"Aplēš laikrindas noturības vai vidējā atgriešanās īpašības; jutīgs pret metodiku."
+211;Cikli, statistika un kvantitatīvie indikatori;Z-score;Novirze no vidējā standartnoviržu vienībās.
+212;Cikli, statistika un kvantitatīvie indikatori;Rolling Correlation;Divu datu virkņu saistības novērtējums slīdošā logā.
+213;Cikli, statistika un kvantitatīvie indikatori;Beta;Aktīva atdeves jutīgums pret izvēlētā etalona atdevi.
+214;Cikli, statistika un kvantitatīvie indikatori;R-squared;Regresijas skaidrotās variācijas īpatsvars.
+215;Cikli, statistika un kvantitatīvie indikatori;Linear Regression Slope;"Regresijas līnijas slīpums; tendences virziens un lielums."
+216;Cikli, statistika un kvantitatīvie indikatori;Linear Regression Angle;Slīpuma leņķa izteiksme, atkarīga no vienībām un mēroga.
+217;Cikli, statistika un kvantitatīvie indikatori;TSF — Time Series Forecast;"Lineārās regresijas ekstrapolācija; nav droša nākotnes prognoze."
+218;Cikli, statistika un kvantitatīvie indikatori;Efficiency Ratio;Neto kustības attiecība pret kopējo absolūto kustību.
+219;Cikli, statistika un kvantitatīvie indikatori;Kalman Filter;Rekursīvs stāvokļa novērtējums, lai filtrētu troksni atbilstoši modelim.
+220;Cikli, statistika un kvantitatīvie indikatori;Percent Rank;Pašreizējās vērtības relatīvā vieta izvēlētā vēsturiskā logā.
+221;Cikli, statistika un kvantitatīvie indikatori;Entropy;Izmanto dažādas metodes laikrindas nenoteiktības vai sarežģītības novērtēšanai.
+222;Cikli, statistika un kvantitatīvie indikatori;Variance;Vidējā kvadrātiskā novirze no vidējās vērtības.
+223;Cikli, statistika un kvantitatīvie indikatori;Skewness;Sadalījuma asimetrijas rādītājs.
+224;Cikli, statistika un kvantitatīvie indikatori;Kurtosis;"Raksturo sadalījuma astu smagumu; jutīgs pret ekstrēmām vērtībām."
+225;Cikli, statistika un kvantitatīvie indikatori;Cointegration / Spread;Mēģina noteikt ilgtermiņa statistisku saistību starp laikrindām pāru tirdzniecībai.
+226;Tirgus plašums un sentiments;Advance–Decline Line;Kumulatīva augošo un krītošo akciju skaita starpība.
+227;Tirgus plašums un sentiments;Advance–Decline Ratio;Augošo un krītošo instrumentu skaita attiecība.
+228;Tirgus plašums un sentiments;McClellan Oscillator;Izlīdzinātu tirgus plašuma datu vidējo starpība.
+229;Tirgus plašums un sentiments;McClellan Summation Index;Kumulatīvs McClellan oscilatora rādītājs.
+230;Tirgus plašums un sentiments;TRIN — Arms Index;Augošo/krītošo akciju skaita attiecība pret to apjomu attiecību.
+231;Tirgus plašums un sentiments;NYSE TICK;Akciju skaita starpība starp pēdējiem uptick un downtick darījumiem.
+232;Tirgus plašums un sentiments;New Highs–New Lows;Jaunu perioda maksimumu un minimumu skaita starpība.
+233;Tirgus plašums un sentiments;Percent Above 200-day MA;"Akciju īpatsvars virs 200 dienu vidējā; tirgus plašums."
+234;Tirgus plašums un sentiments;Percent Above 50-day MA;Akciju īpatsvars virs 50 dienu vidējā.
+235;Tirgus plašums un sentiments;Bullish Percent Index;Akciju īpatsvars ar Point & Figure pirkšanas signālu.
+236;Tirgus plašums un sentiments;Put/Call Ratio;Put un call opciju apjomu vai atvērto kontraktu attiecība.
+237;Tirgus plašums un sentiments;Fear & Greed Index;"Salikts sentimenta rādītājs; akciju un kripto versiju metodikas atšķiras."
+238;Tirgus plašums un sentiments;COT — Commitments of Traders;"CFTC pozīciju pārskati pa dalībnieku grupām; periodiski un ar aizkavi."
+239;Tirgus plašums un sentiments;Implied Volatility;No opciju tirgus cenas un modeļa izsecināts svārstīgums.
+240;Tirgus plašums un sentiments;IV Rank;Implicētā svārstīguma pozīcija starp vēsturisko minimumu un maksimumu.
+241;Tirgus plašums un sentiments;IV Percentile;Vēsturisko dienu īpatsvars ar zemāku implicēto svārstīgumu.
+242;Tirgus plašums un sentiments;Volatility Skew;Implicētā svārstīguma atšķirības dažādām opciju izpildes cenām.
+243;Tirgus plašums un sentiments;Gamma Exposure;"Modelēta opciju gamma ekspozīcija; tirgus dalībnieku pozīciju pieņēmumi var atšķirties."
+244;Kriptovalūtu on-chain indikatori;MVRV Ratio;Tirgus kapitalizācijas attiecība pret realizēto kapitalizāciju.
+245;Kriptovalūtu on-chain indikatori;MVRV Z-score;Normalizē tirgus un realizētās kapitalizācijas starpību atbilstoši izvēlētai metodikai.
+246;Kriptovalūtu on-chain indikatori;NUPL — Net Unrealized Profit/Loss;Aplēstā nerealizētā peļņa mīnus zaudējumi attiecībā pret tirgus kapitalizāciju.
+247;Kriptovalūtu on-chain indikatori;SOPR — Spent Output Profit Ratio;Iztērēto UTXO vērtība tērēšanas brīdī pret vērtību to izveides brīdī.
+248;Kriptovalūtu on-chain indikatori;Realized Price;Realizētā kapitalizācija dalīta ar apgrozībā esošo vienību skaitu.
+249;Kriptovalūtu on-chain indikatori;Exchange Netflow;"Aplēstā kripto ieplūde biržās mīnus izplūde; atkarīga no adrešu marķējuma."
+250;Kriptovalūtu on-chain indikatori;Exchange Reserves;Aplēstais aktīvu daudzums identificētajās biržu adresēs.
+251;Kriptovalūtu on-chain indikatori;Active Addresses;"Aktīvo blokķēdes adrešu skaits; nav tas pats, kas cilvēku skaits."
+252;Kriptovalūtu on-chain indikatori;NVT — Network Value to Transactions;Tīkla vērtības attiecība pret on-chain darījumu vērtību.
+253;Kriptovalūtu on-chain indikatori;Puell Multiple;Bitcoin ikdienas emisijas vērtība pret tās ilgtermiņa vidējo.
+254;Kriptovalūtu on-chain indikatori;Hash Rate;Aplēstā darba apliecinājuma tīkla skaitļošanas jauda.
+255;Kriptovalūtu on-chain indikatori;Hash Ribbons;Hash rate slīdošo vidējo salīdzinājums kalnraču aktivitātes analīzei.
+256;Kriptovalūtu on-chain indikatori;Coin Days Destroyed;Iztērēto monētu daudzums reizināts ar to iepriekšējo neaktivitātes ilgumu.
+257;Kriptovalūtu on-chain indikatori;HODL Waves;Monētu piedāvājuma sadalījums pēc to pēdējās pārvietošanas vecuma.
+258;Kriptovalūtu on-chain indikatori;Stablecoin Supply Ratio;Bitcoin tirgus kapitalizācijas attiecība pret izvēlēto stabilo monētu kapitalizāciju.
+259;Fundamentālie un makroekonomiskie rādītāji;EPS — Earnings Per Share;Uz vienu akciju attiecināmā peļņa.
+260;Fundamentālie un makroekonomiskie rādītāji;P/E — Price to Earnings;"Akcijas cenas attiecība pret peļņu uz akciju; negatīvai peļņai interpretācija ierobežota."
+261;Fundamentālie un makroekonomiskie rādītāji;P/B — Price to Book;Tirgus vērtības attiecība pret uzskaites pašu kapitālu.
+262;Fundamentālie un makroekonomiskie rādītāji;P/S — Price to Sales;Tirgus kapitalizācijas attiecība pret ieņēmumiem.
+263;Fundamentālie un makroekonomiskie rādītāji;EV/EBITDA;Uzņēmuma vērtība pret peļņu pirms procentiem, nodokļiem, nolietojuma un amortizācijas.
+264;Fundamentālie un makroekonomiskie rādītāji;ROE — Return on Equity;Peļņa attiecībā pret pašu kapitālu.
+265;Fundamentālie un makroekonomiskie rādītāji;ROA — Return on Assets;Peļņa attiecībā pret aktīviem.
+266;Fundamentālie un makroekonomiskie rādītāji;FCF Yield;Brīvā naudas plūsma attiecībā pret atbilstošu tirgus vērtības mēru.
+267;Fundamentālie un makroekonomiskie rādītāji;Debt/Equity;Parādu attiecība pret pašu kapitālu.
+268;Fundamentālie un makroekonomiskie rādītāji;Dividend Yield;Gada dividendes attiecībā pret akcijas cenu.
+269;Fundamentālie un makroekonomiskie rādītāji;CPI — Consumer Price Index;"Patēriņa cenu indekss; inflācijas analīzei."
+270;Fundamentālie un makroekonomiskie rādītāji;PPI — Producer Price Index;Ražotāju cenu izmaiņas.
+271;Fundamentālie un makroekonomiskie rādītāji;NFP — Nonfarm Payrolls;ASV nodarbināto skaita izmaiņas ārpus lauksaimniecības un citām izslēgtām grupām.
+272;Fundamentālie un makroekonomiskie rādītāji;PMI — Purchasing Managers Index;"Uzņēmējdarbības aptaujas indekss; 50 bieži nošķir izaugsmi no sarukuma."
+273;Fundamentālie un makroekonomiskie rādītāji;GDP — Gross Domestic Product;"Iekšzemes kopprodukts; ekonomikas izlaides rādītājs."
+274;Fundamentālie un makroekonomiskie rādītāji;Central Bank Policy Rate;Centrālās bankas noteiktā monetārās politikas procentu likme.
+275;Fundamentālie un makroekonomiskie rādītāji;DXY — US Dollar Index;ASV dolāra vērtības indekss pret noteiktu valūtu grozu.
+276;Fundamentālie un makroekonomiskie rādītāji;Yield Curve Spread;Dažādu termiņu obligāciju ienesīgumu starpība.
+277;Stratēģiju riska un rezultātu rādītāji;Maximum Drawdown;Lielākais kapitāla kritums no maksimuma līdz sekojošam minimumam.
+278;Stratēģiju riska un rezultātu rādītāji;Sharpe Ratio;Atdeve virs bezriska likmes attiecībā pret atdeves standartnovirzi.
+279;Stratēģiju riska un rezultātu rādītāji;Sortino Ratio;Atdeve virs mērķa attiecībā pret negatīvās novirzes mēru.
+280;Stratēģiju riska un rezultātu rādītāji;Calmar Ratio;Gada atdeves attiecība pret maksimālo kritumu attiecīgajā periodā.
+281;Stratēģiju riska un rezultātu rādītāji;Profit Factor;Bruto peļņas attiecība pret bruto zaudējumu absolūto vērtību.
+282;Stratēģiju riska un rezultātu rādītāji;Win Rate;Peļņu nesošu darījumu īpatsvars.
+283;Stratēģiju riska un rezultātu rādītāji;Expectancy;Vidējais sagaidāmais rezultāts uz darījumu, novērtēts no izlases.
+284;Stratēģiju riska un rezultātu rādītāji;Risk/Reward Ratio;"Plānotā riska un iespējamās peļņas attiecība; neietver varbūtību pati par sevi."
+285;Stratēģiju riska un rezultātu rādītāji;VaR — Value at Risk;Zaudējumu sadalījuma kvantile noteiktā periodā un ticamības līmenī.
+286;Stratēģiju riska un rezultātu rādītāji;Expected Shortfall / CVaR;Vidējais zaudējums aiz izvēlētās VaR robežas.
+287;Stratēģiju riska un rezultātu rādītāji;MAE — Maximum Adverse Excursion;Lielākā nelabvēlīgā cenas novirze atvērta darījuma laikā.
+288;Stratēģiju riska un rezultātu rādītāji;MFE — Maximum Favorable Excursion;Lielākā labvēlīgā cenas novirze atvērta darījuma laikā.
+289;Stratēģiju riska un rezultātu rādītāji;Recovery Factor;Neto peļņa attiecībā pret maksimālo kritumu.
+290;Sveču un grafiku modeļi (nav klasiskie indikatori);Doji;"Atvēršanas un slēgšanas cenas tuvas; norāda uz līdzsvaru konkrētajā svecē."
+291;Sveču un grafiku modeļi (nav klasiskie indikatori);Hammer;"Mazs ķermenis ar garu apakšējo ēnu; pēc krituma var norādīt uz noraidījumu."
+292;Sveču un grafiku modeļi (nav klasiskie indikatori);Hanging Man;"Hammer līdzīga svece pēc kāpuma; iespējama vājuma pazīme."
+293;Sveču un grafiku modeļi (nav klasiskie indikatori);Inverted Hammer;Mazs ķermenis ar garu augšējo ēnu pēc krituma.
+294;Sveču un grafiku modeļi (nav klasiskie indikatori);Shooting Star;"Gara augšējā ēna pēc kāpuma; iespējams augstāku cenu noraidījums."
+295;Sveču un grafiku modeļi (nav klasiskie indikatori);Bullish Engulfing;Augoša svece, kuras ķermenis aptver iepriekšējās krītošās sveces ķermeni.
+296;Sveču un grafiku modeļi (nav klasiskie indikatori);Bearish Engulfing;Krītoša svece, kuras ķermenis aptver iepriekšējās augošās sveces ķermeni.
+297;Sveču un grafiku modeļi (nav klasiskie indikatori);Morning Star;Trīs sveču iespējamais augšupejas reversijas modelis pēc krituma.
+298;Sveču un grafiku modeļi (nav klasiskie indikatori);Evening Star;Trīs sveču iespējamais lejupejas reversijas modelis pēc kāpuma.
+299;Sveču un grafiku modeļi (nav klasiskie indikatori);Harami;Mazāks sveces ķermenis iepriekšējās sveces ķermeņa robežās.
+300;Sveču un grafiku modeļi (nav klasiskie indikatori);Three White Soldiers;Trīs secīgas izteikti augošas sveces.
+301;Sveču un grafiku modeļi (nav klasiskie indikatori);Three Black Crows;Trīs secīgas izteikti krītošas sveces.
+302;Sveču un grafiku modeļi (nav klasiskie indikatori);Marubozu;Svece ar lielu ķermeni un ļoti mazām ēnām vai bez tām.
+303;Sveču un grafiku modeļi (nav klasiskie indikatori);Inside Bar;Sveces diapazons ietilpst iepriekšējās sveces diapazonā.
+304;Sveču un grafiku modeļi (nav klasiskie indikatori);Outside Bar;Sveces maksimums un minimums pārsniedz iepriekšējās sveces robežas.
+305;Sveču un grafiku modeļi (nav klasiskie indikatori);Head and Shoulders;Trīs virsotņu struktūra ar augstāku vidējo virsotni.
+306;Sveču un grafiku modeļi (nav klasiskie indikatori);Inverse Head and Shoulders;Apgriezts galvas un plecu modelis pēc krituma.
+307;Sveču un grafiku modeļi (nav klasiskie indikatori);Double Top / Double Bottom;"Divi līdzīgi maksimumi vai minimumi; iespējama reversijas struktūra."
+308;Sveču un grafiku modeļi (nav klasiskie indikatori);Triangles;Sašaurinošas cenu robežas, kuru izlaušanās virziens iepriekš nav garantēts.
+309;Sveču un grafiku modeļi (nav klasiskie indikatori);Flag / Pennant;"Īsa konsolidācija pēc straujas kustības; turpinājums nav garantēts."
+310;Sveču un grafiku modeļi (nav klasiskie indikatori);Cup and Handle;Noapaļota atkopšanās ar mazāku korekciju pirms iespējamās izlaušanās.
+311;Sveču un grafiku modeļi (nav klasiskie indikatori);Heikin Ashi;Pārveidots sveču grafiks ar izlīdzinātām, ne obligāti izpildāmām OHLC cenām.
+312;Sveču un grafiku modeļi (nav klasiskie indikatori);Renko;Grafiks, kas veido ķieģeļus pēc cenas izmaiņas sliekšņa, nevis fiksēta laika.
+313;Sveču un grafiku modeļi (nav klasiskie indikatori);Point & Figure;X un O kolonnu grafiks pēc cenas kustības un reversijas sliekšņa.
+314;Sveču un grafiku modeļi (nav klasiskie indikatori);Kagi;Grafiks, kas maina līnijas virzienu pēc noteiktas cenas reversijas.
+315;Sveču un grafiku modeļi (nav klasiskie indikatori);Elliott Wave;Viļņu struktūras interpretācijas metode, nevis objektīvi viennozīmīgs indikators.
+316;Sveču un grafiku modeļi (nav klasiskie indikatori);Harmonic Patterns;Gartley, Bat, Butterfly, Crab un citi modeļi, kas izmanto Fibonacci attiecības.

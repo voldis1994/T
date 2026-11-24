@@ -1,0 +1,574 @@
+CAPITAL.COM  /  API DATU KATALOGS
+Tehniskā atsauce • REST / WebSocket
+1
+TEHNISKĀ ATSAUCE / TIRDZNIECĪBAS ROBOTAM
+Capital.com API
+Datu katalogs • REST API un WebSocket
+Iepriekšējās sarunas informācija par Capital.com publisko API: cenas un sveces, instrumenti, klientu sentiments,
+likviditātes indikācijas, finansēšanas izmaksas, konts, pozīcijas, orderi un robota aprēķināmie rādītāji.
+Šis dokuments apkopo iepriekš sniegtās 14 sadaļas, nevis neatkarīgi pārbaudītu pilnīgu API shēmu. API versija, pieejamie lauki un
+jurisdikcijas ierobežojumi var mainīties. Pirms integrācijas pārbaudīt oficiālo dokumentāciju un DEMO atbildes.
+Oficiālā dokumentācija: https://open-api.capital.com/
+1. API savienojumu veidi
+ API
+Funkcija
+REST API
+Vēsturiskie dati, tirgus informācija, konts, pozīcijas, orderi
+WebSocket API
+Reāllaika cenu un sveču plūsma
+Pieejama gan DEMO, gan LIVE vide.
+LIVE REST API
+https://api-capital.backend-capital.com/api/v1
+DEMO REST API
+https://demo-api-capital.backend-capital.com/api/v1
+Satura rādītājs
+1. API savienojumi • 2. Reāllaika cenas • 3. Reāllaika sveces • 4. Vēsturiskās cenas • 5. Instrumentu saraksts •
+6. Instrumenta specifikācija • 7. Sentiments • 8. Tirgus skeneris • 9. Konts • 10. Kredītplecs • 11. Pozīcijas •
+12. SL/TP • 13. Orderi • 14. Izpildes apstiprinājumi
+
+CAPITAL.COM  /  API DATU KATALOGS
+Tehniskā atsauce • REST / WebSocket
+2
+2. Reāllaika cenu dati (WebSocket)
+marketData.subscribe → quote
+API datu lauks
+Nozīme
+epic
+Instrumenta unikālais identifikators
+product
+Finanšu produkta veids, piemēram, CFD
+bid
+Aktuālā pārdošanas cena
+ofr
+Aktuālā pirkšanas cena (Ask)
+bidQty
+Bid kotācijai norādītais daudzums
+ofrQty
+Ask kotācijai norādītais daudzums
+timestamp
+Kotācijas laiks milisekundēs
+status
+API ziņojuma statuss
+destination
+Ziņojuma veids
+Robots var iegūt Bid un Ask cenas un daudzumus, kā arī aprēķināt spread, spread procentos, spread izmaiņas,
+Mid Price, cenu kustības virzienu un ātrumu, kotāciju pienākšanas biežumu, Bid/Ask daudzumu attiecību un
+disbalansu, cenu paātrinājumu, īstermiņa volatilitāti, kotāciju plūsmas pārtraukumus un datu saņemšanas
+aizkavēšanos.
+Svarīgi: bidQty un ofrQty ir kotāciju daudzumi, nevis pilna biržas orderu grāmata vai visa pasaules tirgus
+likviditāte.
+3. Reāllaika sveces (OHLC)
+OHLCMarketData.subscribe → ohlc.event
+API datu lauks
+Nozīme
+epic
+Instrumenta ID
+resolution
+Sveces laika periods
+type
+Sveces tips
+priceType
+Cenas puse, piemēram, Bid
+t
+Sveces laiks
+o
+Open — atvēršanās cena
+h
+High — augstākā cena
+l
+Low — zemākā cena
+c
+Close — aktuālā vai noslēguma cena
+Sveču tipi: classic (klasiskās sveces) un heikin-ashi (Heikin Ashi sveces).
+
+CAPITAL.COM  /  API DATU KATALOGS
+Tehniskā atsauce • REST / WebSocket
+3
+3.1. API standarta laika periodi
+ API parametrs
+Periods
+MINUTE
+M1 — 1 minūte
+MINUTE_5
+M5 — 5 minūtes
+MINUTE_15
+M15 — 15 minūtes
+MINUTE_30
+M30 — 30 minūtes
+HOUR
+H1 — 1 stunda
+HOUR_4
+H4 — 4 stundas
+DAY
+D1 — 1 diena
+WEEK
+W1 — 1 nedēļa
+Robots var veidot papildu periodus no saņemtajām kotācijām vai īsākām svecēm: 1 sekundi, 5 sekundes, M2,
+M3, M10, H2, H8, mēneša un citus periodus. Sekunžu sveces nav dokumentētas kā tieši pieprasāms
+vēsturiskais periods.
+4. Vēsturiskie cenu dati
+GET /prices/{epic}
+API datu lauks
+Nozīme
+snapshotTime
+Sveces laiks
+snapshotTimeUTC
+Sveces laiks UTC
+openPrice.bid
+Bid atvēršanās cena
+openPrice.ask
+Ask atvēršanās cena
+highPrice.bid
+Augstākā Bid cena
+highPrice.ask
+Augstākā Ask cena
+lowPrice.bid
+Zemākā Bid cena
+lowPrice.ask
+Zemākā Ask cena
+closePrice.bid
+Bid noslēguma cena
+closePrice.ask
+Ask noslēguma cena
+lastTradedVolume
+API norādītais apjoma rādītājs
+instrumentType
+Instrumenta kategorija atbildes līmenī
+prices
+Vēsturisko sveču masīvs
+
+CAPITAL.COM  /  API DATU KATALOGS
+Tehniskā atsauce • REST / WebSocket
+4
+4.1. Pieprasījuma parametri
+ Parametrs
+Funkcija
+epic
+Instruments
+resolution
+Laika periods
+max
+Sveces skaits
+from
+Vēstures sākuma datums
+to
+Vēstures beigu datums
+Vienā pieprasījumā līdz 1000 svecēm; garākai vēsturei nepieciešami vairāki pieprasījumi. lastTradedVolume nav
+automātiski interpretējams kā viss biržā tirgotais reālais apjoms, īpaši CFD un Forex. WebSocket sveču
+dokumentētajā atbildē atsevišķs volume lauks nav norādīts.
+5. Visu tirdzniecības instrumentu dati
+GET /markets
+Robots var automātiski iegūt konkrētajā kontā pieejamo instrumentu sarakstu.
+API datu lauks
+Nozīme
+epic
+Instrumenta ID
+symbol
+Instrumenta simbols
+instrumentName
+Pilnais nosaukums
+instrumentType
+Instrumenta kategorija
+lotSize
+Lotes izmērs
+expiry
+Derīguma termiņš
+bid
+Bid cena
+offer
+Ask cena
+high
+Augstākā cena
+low
+Zemākā cena
+netChange
+Cenas absolūtās izmaiņas
+percentageChange
+Cenas procentuālās izmaiņas
+updateTime
+Pēdējās atjaunošanas laiks
+updateTimeUTC
+Pēdējās atjaunošanas laiks UTC
+delayTime
+Datu aizkavēšanās
+streamingPricesAvailable
+Reāllaika plūsmas pieejamība
+marketStatus
+Tirgus statuss
+marketModes
+Tirgus darbības režīmi
+scalingFactor
+Cenas mērogošanas koeficients
+pipPosition
+Pip decimālā pozīcija
+tickSize
+Minimālais cenas solis
+Kategorijas: akcijas, Forex valūtas, indeksi, izejvielas un kriptovalūtas, ja pieejamas kontā un jurisdikcijā.
+Meklēšanai izmanto searchTerm vai epics; ar epics līdz 50 instrumentiem vienā pieprasījumā.
+
+CAPITAL.COM  /  API DATU KATALOGS
+Tehniskā atsauce • REST / WebSocket
+5
+6. Detalizēta instrumenta specifikācija
+GET /markets/{epic}
+6.1. Instrumenta pamatinformācija
+instrument
+API datu lauks
+Nozīme
+epic
+Instrumenta ID
+symbol
+Simbols
+name
+Nosaukums
+expiry
+Derīguma termiņš
+lotSize
+Lotes izmērs
+type
+Instrumenta tips
+currency
+Instrumenta valūta
+guaranteedStopAllowed
+Vai atļauts garantētais Stop Loss
+streamingPricesAvailable
+Reāllaika cenu pieejamība
+marginFactor
+Maržas koeficients
+marginFactorUnit
+Maržas koeficienta mērvienība
+6.2. Tirgus darba laiks
+instrument.openingHours
+API datu lauks
+Nozīme
+mon
+Pirmdienas darba laiks
+tue
+Otrdienas darba laiks
+wed
+Trešdienas darba laiks
+thu
+Ceturtdienas darba laiks
+fri
+Piektdienas darba laiks
+sat
+Sestdienas darba laiks
+sun
+Svētdienas darba laiks
+zone
+Laika zona
+Robots var aprēķināt laiku līdz tirgus atvēršanai, slēgšanai, pārtraukumam un tirdzniecības sesijām.
+6.3. Finansēšanas izmaksas (SWAP)
+instrument.overnightFee
+API datu lauks
+Nozīme
+longRate
+Long pozīcijas finansēšanas likme
+shortRate
+Short pozīcijas finansēšanas likme
+swapChargeTimestamp
+SWAP piemērošanas laiks
+swapChargeInterval
+SWAP piemērošanas intervāls
+Šos datus robots var izmantot paredzamo pozīcijas turēšanas izmaksu aprēķinam.
+
+CAPITAL.COM  /  API DATU KATALOGS
+Tehniskā atsauce • REST / WebSocket
+6
+6.4. Tirdzniecības noteikumi
+dealingRules
+API datu lauks
+Nozīme
+minStepDistance
+Minimālais distances solis
+minDealSize
+Minimālais darījuma izmērs
+maxDealSize
+Maksimālais darījuma izmērs
+minSizeIncrement
+Minimālais apjoma palielināšanas solis
+minGuaranteedStopDistance
+Minimālā garantētā Stop Loss distance
+minStopOrProfitDistance
+Minimālā SL/TP distance
+maxStopOrProfitDistance
+Maksimālā SL/TP distance
+marketOrderPreference
+Tirgus orderu pieejamības režīms
+trailingStopsPreference
+Trailing Stop pieejamības režīms
+Distances un apjoma ierobežojumu objekti satur unit un value. Mērvienību piemēri: POINTS, PERCENTAGE.
+6.5. Aktuālais tirgus stāvoklis
+snapshot
+API datu lauks
+Nozīme
+marketStatus
+Tirgus statuss
+netChange
+Absolūtās cenas izmaiņas
+percentageChange
+Procentuālās cenas izmaiņas
+updateTime
+Atjaunošanas laiks
+delayTime
+Aizkavēšanās
+bid
+Bid cena
+offer
+Ask cena
+high
+Augstākā cena
+low
+Zemākā cena
+decimalPlacesFactor
+Cenas decimālā precizitāte
+scalingFactor
+Mērogošanas koeficients
+marketModes
+Tirgus režīmi
+7. Tirgus sentiments — LONG un SHORT
+GET /clientsentiment | GET /clientsentiment/{marketId}
+API datu lauks
+Nozīme
+marketId
+Tirgus identifikators
+longPositionPercentage
+Long pozīciju procentuālais rādītājs
+shortPositionPercentage
+Short pozīciju procentuālais rādītājs
+Ilustratīvs piemērs: LONG/BUY 72%, SHORT/SELL 28%. Tie nav aktuāli tirgus dati.
+Robots var veidot sentimenta vēsturi, Long/Short attiecību, sentimenta disbalansu, izmaiņu ātrumu un
+sentimenta un cenas diverģenci. Dati attiecas uz Capital.com klientiem, nevis visu pasaules tirgu. Atsevišķs
+vēsturiskā sentimenta API nav dokumentēts; vēsture robotam jāuzkrāj pašam.
+
+CAPITAL.COM  /  API DATU KATALOGS
+Tehniskā atsauce • REST / WebSocket
+7
+8. Tirgus skeneris un instrumentu grupas
+GET /marketnavigation | GET /marketnavigation/{nodeId}
+Pieejami kategoriju identifikatori id, nosaukumi name, apakškategoriju masīvs nodes un attiecīgās grupas
+instrumenti.
+Grupa
+Nozīme
+Most Traded
+Visvairāk tirgotie instrumenti
+Recently Traded
+Nesen tirgotie instrumenti
+New
+Jaunie instrumenti
+Top Risers
+Lielākie kāpēji
+Top Fallers
+Lielākie kritēji
+Most Volatile
+Svārstīgākie instrumenti
+Weekend Trading
+Nedēļas nogalē tirgojamie instrumenti
+Robots var automātiski atlasīt instrumentus analīzei, neaprobežojoties ar manuāli izvēlētiem simboliem.
+9. Tirdzniecības konta dati
+GET /accounts
+API datu lauks
+Nozīme
+accountId
+Konta ID
+accountName
+Konta nosaukums
+status
+Konta statuss
+accountType
+Konta tips
+preferred
+Prioritārais konts
+balance.balance
+API konta bilances rādītājs
+balance.deposit
+Depozīta/bilances komponents
+balance.profitLoss
+Peļņa vai zaudējumi
+balance.available
+Pieejamie līdzekļi
+currency
+Konta valūta
+symbol
+Valūtas simbols
+Pareizi interpretējot konta un pozīciju datus, robots var uzskaitīt izmantoto maržu, kopējo ekspozīciju, brīvo
+kapitālu, dienas peļņu un zaudējumus, Drawdown, kapitāla izmaiņas un citus riska rādītājus.
+
+CAPITAL.COM  /  API DATU KATALOGS
+Tehniskā atsauce • REST / WebSocket
+8
+10. Kredītplecs un konta iestatījumi
+GET /accounts/preferences
+API datu lauks
+Nozīme
+hedgingMode
+Vai aktivizēts hedging režīms
+leverages
+Kredītplecu iestatījumi
+leverages.SHARES.current
+Akciju aktīvais kredītplecs
+leverages.SHARES.available
+Akciju pieejamie kredītpleci
+leverages.CURRENCIES.current
+Forex aktīvais kredītplecs
+leverages.CURRENCIES.available
+Forex pieejamie kredītpleci
+leverages.INDICES.current
+Indeksu aktīvais kredītplecs
+leverages.INDICES.available
+Indeksu pieejamie kredītpleci
+leverages.CRYPTOCURRENCIES.current
+Kripto aktīvais kredītplecs
+leverages.CRYPTOCURRENCIES.available
+Kripto pieejamie kredītpleci
+leverages.COMMODITIES.current
+Izejvielu aktīvais kredītplecs
+leverages.COMMODITIES.available
+Izejvielu pieejamie kredītpleci
+Iestatījumus var mainīt ar PUT /accounts/preferences. Atbildē saņem status.
+11. Visu atvērto pozīciju dati
+GET /positions | GET /positions/{dealId}
+position
+API datu lauks
+Nozīme
+dealId
+Pozīcijas unikālais ID
+dealReference
+Darījuma atsauce
+workingOrderId
+Saistītā ordera ID
+contractSize
+Kontrakta izmērs
+createdDate
+Atvēršanas laiks
+createdDateUTC
+Atvēršanas laiks UTC
+size
+Pozīcijas apjoms
+leverage
+Kredītplecs
+upl
+Nerealizētā peļņa vai zaudējumi
+direction
+BUY vai SELL
+level
+Pozīcijas atvēršanas cena
+currency
+Pozīcijas valūta
+guaranteedStop
+Garantētā Stop Loss statuss
+Papildus tiek atgriezts market objekts ar instrumenta aktuālo cenu, tirgus statusu un citiem tirgus datiem.
+Robots var aprēķināt pozīcijas turēšanas ilgumu, peļņu, zaudējumus, ekspozīciju, cenas attālumu no ieejas, MFE
+(maksimālo labvēlīgo kustību) un MAE (maksimālo nelabvēlīgo kustību), ja saglabā cenu vēsturi.
+
+CAPITAL.COM  /  API DATU KATALOGS
+Tehniskā atsauce • REST / WebSocket
+9
+12. Stop Loss, Take Profit un Trailing Stop
+Pozīciju un orderu izveidošanas vai modificēšanas API parametri:
+API parametrs
+Funkcija
+stopLevel
+Stop Loss cenas līmenis
+stopDistance
+Stop Loss distance
+stopAmount
+Stop Loss naudas summa
+profitLevel
+Take Profit cenas līmenis
+profitDistance
+Take Profit distance
+profitAmount
+Take Profit naudas summa
+guaranteedStop
+Garantētais Stop Loss
+trailingStop
+Sekotājs Stop Loss
+Tie ir vadības parametri, nevis garantēti lauki katrā pozīcijas nolasīšanas atbildē. Robotam jāsaglabā nosūtītie
+iestatījumi un jāpārbauda faktiskās API atbildes. Garantētais Stop Loss un Trailing Stop nav vienlaikus
+izmantojami; garantētajam Stop Loss ir arī hedging režīma ierobežojums.
+13. Neizpildīto orderu dati
+GET /workingorders
+workingOrderData
+API datu lauks
+Nozīme
+dealId
+Ordera ID
+direction
+BUY vai SELL
+epic
+Instruments
+orderSize
+Ordera apjoms
+leverage
+Kredītplecs
+orderLevel
+Ordera cenas līmenis
+orderType
+LIMIT vai STOP
+timeInForce
+Ordera derīguma režīms
+goodTillDate
+Derīguma beigu laiks
+goodTillDateUTC
+Derīguma beigu laiks UTC
+createdDate
+Izveidošanas laiks
+createdDateUTC
+Izveidošanas laiks UTC
+guaranteedStop
+Garantētais Stop Loss
+stopDistance
+Stop Loss distance
+profitDistance
+Take Profit distance
+trailingStop
+Trailing Stop
+currencyCode
+Valūta
+Derīguma režīmi: GOOD_TILL_CANCELLED (līdz atcelšanai) un GOOD_TILL_DATE (līdz noteiktam datumam).
+Papildus saņem marketData objektu ar instrumenta cenu datiem.
+
+CAPITAL.COM  /  API DATU KATALOGS
+Tehniskā atsauce • REST / WebSocket
+10
+14. Darījumu izpildes apstiprinājumi
+GET /confirms/{dealReference}
+API datu lauks
+Nozīme
+date
+Darījuma laiks
+status
+Pozīcijas/orderu statuss
+dealStatus
+Darījuma pieņemšanas statuss
+epic
+Instruments
+dealReference
+Darījuma atsauce
+dealId
+Darījuma ID
+affectedDeals
+Ietekmēto darījumu masīvs
+affectedDeals[].dealId
+Ietekmētā darījuma ID
+affectedDeals[].status
+Ietekmētā darījuma statuss
+level
+Izpildes cenas līmenis
+size
+Darījuma apjoms
+direction
+BUY vai SELL
+guaranteedStop
+Garantētais Stop Loss
+trailingStop
+Trailing Stop
+Robots var pārbaudīt, vai darījums tiešām izpildīts, un aprēķināt Slippage un ordera izpildes laiku, salīdzinot ar
+paša reģistrēto nosūtīšanas brīdi un cenu.
+Svarīgi: HTTP 200 atbilde pēc ordera nosūtīšanas vēl nenozīmē, ka pozīcija ir sekmīgi atvērta.
+Avots un lietošanas piezīme
+Capital.com Public API — https://open-api.capital.com/
+Dokuments sagatavots no iepriekšējā sarunas pārskata. Iekļauti visi tajā uzskaitītie lauki un būtiskie skaidrojumi. Tas neietver jaunu
+API dokumentācijas vai reālo konta atbilžu pārbaudi; tāpēc nav pamata uzskatīt šo pārskatu par garantēti pilnīgu visu Capital.com
+API galapunktu un atbilžu shēmu uzskaitījumu.
