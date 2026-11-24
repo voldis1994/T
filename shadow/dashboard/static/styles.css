@@ -226,6 +226,47 @@ td.SELL { color: var(--sell); }
 .creds button { grid-column: 1 / -1; justify-self: start; }
 .news-row { display: flex; gap: 0.4rem; align-items: center; margin-top: 0.8rem; color: var(--muted); font-size: 0.8rem; }
 
+.reg-overlay {
+  position: fixed; inset: 0; z-index: 40;
+  display: grid; place-items: center;
+  padding: 1.25rem;
+  background: rgba(4, 10, 8, 0.72);
+  backdrop-filter: blur(10px);
+  animation: fadeDown 0.35s ease both;
+}
+.reg-overlay[hidden] { display: none !important; }
+.reg-card {
+  width: min(640px, 100%);
+  background:
+    radial-gradient(500px 200px at 0% 0%, rgba(45, 212, 168, 0.12), transparent 60%),
+    var(--bg1);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 1.25rem 1.35rem 1.4rem;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+.reg-brand { display: flex; gap: 0.85rem; align-items: flex-start; margin-bottom: 0.9rem; }
+.reg-brand h2 {
+  font-family: var(--display); margin: 0; font-size: 1.45rem; letter-spacing: 0.02em;
+}
+.reg-brand p { margin: 0.35rem 0 0; color: var(--muted); font-size: 0.88rem; line-height: 1.45; }
+.reg-steps {
+  margin: 0 0 1rem; padding-left: 1.2rem; color: #c5d5ce; font-size: 0.85rem; line-height: 1.55;
+}
+.reg-form { grid-template-columns: 1fr 1fr; }
+.reg-actions {
+  grid-column: 1 / -1;
+  display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.2rem;
+}
+.reg-summary {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; margin-bottom: 0.85rem;
+}
+.reg-summary > div {
+  background: #0d1613; border: 1px solid var(--line); border-radius: 8px; padding: 0.55rem 0.65rem;
+}
+.reg-summary span { display: block; color: var(--muted); font-size: 0.72rem; margin-bottom: 0.15rem; }
+.reg-summary b { font-size: 0.88rem; font-weight: 500; word-break: break-all; }
+
 .foot {
   display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
   padding: 0 1.5rem 1.4rem; color: var(--muted); font-size: 0.75rem;
@@ -248,5 +289,6 @@ td.SELL { color: var(--sell); }
 @media (max-width: 1100px) {
   .panel, .panel.chart-panel, .panel.wide, .panel.hero { grid-column: span 12; }
   .panel.hero { grid-template-columns: 1fr; }
-  .creds { grid-template-columns: 1fr; }
+  .creds, .reg-form { grid-template-columns: 1fr; }
+  .reg-summary { grid-template-columns: 1fr 1fr; }
 }

@@ -15,6 +15,7 @@ run.bat
 ```
 
 3. Atver pārlūkā **http://127.0.0.1:8080**
+4. Dashboardā **Reģistrē SHADOW** — ievadi Capital.com API key, e-pastu un API paroli (saglabājas `.env`)
 
 ### Ja `pip` rāda Permission denied
 Nepalaid `pip` uz sistēmas Python — izmanto `setup.bat` (tas veido `.venv` un `--no-cache-dir`).

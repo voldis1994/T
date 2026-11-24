@@ -11,6 +11,43 @@
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
+
+  <!-- Self-registration gate -->
+  <div id="regOverlay" class="reg-overlay" hidden>
+    <div class="reg-card" role="dialog" aria-labelledby="regTitle">
+      <div class="reg-brand">
+        <div class="mark" aria-hidden="true"></div>
+        <div>
+          <h2 id="regTitle">Reģistrē SHADOW</h2>
+          <p>Pieslēdz savu Capital.com kontu caur API — dati paliek tavā datorā (`.env`).</p>
+        </div>
+      </div>
+      <ol class="reg-steps">
+        <li>Capital.com → <b>Settings → API Integrations</b> → Generate new key</li>
+        <li>Ievadi API key, e-pastu un API paroli zemāk</li>
+        <li>Izvēlies DEMO vai LIVE un spied <b>Reģistrēties</b></li>
+      </ol>
+      <form id="regForm" class="creds reg-form">
+        <label>API Key<input name="api_key" required autocomplete="off" placeholder="X-CAP-API-KEY" /></label>
+        <label>E-pasts (identifier)<input name="identifier" type="email" required autocomplete="username" placeholder="tu@epasts.lv" /></label>
+        <label>API parole<input name="password" type="password" required autocomplete="current-password" placeholder="API key parole" /></label>
+        <label>Vide
+          <select name="env">
+            <option value="demo" selected>DEMO</option>
+            <option value="live">LIVE</option>
+          </select>
+        </label>
+        <label>Instruments (epic)<input name="epic" value="EURUSD" /></label>
+        <label>Size<input name="size" type="number" value="1000" min="1" step="1" /></label>
+        <div class="reg-actions">
+          <button type="submit" class="btn primary" id="regSubmit">Reģistrēties un pieslēgt</button>
+          <button type="button" class="btn" id="regSkip">Turpināt paper režīmā</button>
+        </div>
+      </form>
+      <p class="hint" id="regStatus">Bez reģistrācijas robots strādā paper (simulācija).</p>
+    </div>
+  </div>
+
   <header class="top">
     <div class="brand">
       <div class="mark" aria-hidden="true"></div>
@@ -20,6 +57,7 @@
       </div>
     </div>
     <div class="top-status">
+      <button type="button" id="btnOpenReg" class="btn tiny">Reģistrācija</button>
       <span id="modePill" class="pill wait">WAITING</span>
       <span id="connPill" class="pill dim">DISCONNECTED</span>
       <span id="sessionPill" class="pill dim">SESSION</span>
@@ -127,13 +165,22 @@
       <div class="log mono" id="log"></div>
     </section>
 
-    <!-- Settings -->
-    <section class="panel wide settings" aria-label="API">
-      <div class="panel-h"><h2>Capital.com API pieslēgums</h2></div>
+    <!-- Registration / account -->
+    <section class="panel wide settings" id="settingsPanel" aria-label="Reģistrācija">
+      <div class="panel-h">
+        <h2>Mana reģistrācija · Capital.com</h2>
+        <span class="mono muted" id="regBadge">Nav reģistrēts</span>
+      </div>
+      <div class="reg-summary" id="regSummary">
+        <div><span>Statuss</span><b id="regConnected">—</b></div>
+        <div><span>E-pasts</span><b class="mono" id="regIdent">—</b></div>
+        <div><span>API key</span><b class="mono" id="regKey">—</b></div>
+        <div><span>Vide</span><b class="mono" id="regEnv">demo</b></div>
+      </div>
       <form id="credsForm" class="creds">
-        <label>API Key<input name="api_key" autocomplete="off" placeholder="X-CAP-API-KEY" /></label>
-        <label>Identifier (e-pasts)<input name="identifier" autocomplete="username" placeholder="you@email.com" /></label>
-        <label>API parole<input name="password" type="password" autocomplete="current-password" /></label>
+        <label>API Key<input name="api_key" required autocomplete="off" placeholder="X-CAP-API-KEY" /></label>
+        <label>E-pasts<input name="identifier" type="email" required autocomplete="username" placeholder="tu@epasts.lv" /></label>
+        <label>API parole<input name="password" type="password" required autocomplete="current-password" /></label>
         <label>Vide
           <select name="env">
             <option value="demo">DEMO</option>
@@ -142,12 +189,11 @@
         </label>
         <label>Epic<input name="epic" value="EURUSD" /></label>
         <label>Size<input name="size" type="number" value="1000" step="1" /></label>
-        <button type="submit" class="btn primary">Pieslēgt un restartēt</button>
+        <button type="submit" class="btn primary">Saglabāt reģistrāciju un pieslēgt</button>
       </form>
-      <p class="hint">
-        Plūsma: tu fiziski atver <b>pirmo treidu</b> Capital.com app → robots to ierauga caur API →
-        uzliek strukturālo SL/TP → turpina tirgot bez dienas/treidu/riska % limitu.
-        Katram treidam joprojām ir metodikas SL/TP (edge).
+      <p class="hint" id="credsHint">
+        Pēc reģistrācijas: atver <b>pirmo treidu</b> Capital.com app → robots pārņem SL/TP un turpina tirgot.
+        Dati tiek saglabāti lokāli failā <span class="mono">.env</span>.
       </p>
       <div class="news-row">
         <span>Ziņu risks:</span>
