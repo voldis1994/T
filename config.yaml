@@ -59,7 +59,9 @@ sessions:
 
 engine:
   loop_seconds: 5
-  paper_mode_without_credentials: true
+  # false = BEZ Capital.com pieslēguma NETIRGO (tikai analīze).
+  # true = atļauj paper simulāciju testiem.
+  allow_paper_trading: false
   decision_log_path: logs/decisions.jsonl
   trades_log_path: logs/trades.jsonl
 

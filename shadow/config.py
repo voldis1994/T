@@ -81,9 +81,13 @@ config = load_yaml_config()
 class AppState(BaseModel):
     """Shared runtime state pushed to the dashboard."""
 
-    mode: str = "idle"  # idle | waiting_handover | active | paper | error
+    mode: str = "idle"  # idle | waiting_handover | active | paper | analysis_only | error
     connected: bool = False
     paper: bool = True
+    # capital = īsti Capital.com orderi | paper = simulācija | none = tikai analīze
+    broker: str = "none"
+    trading_enabled: bool = False
+    allow_paper_trading: bool = False
     epic: str = "EURUSD"
     last_price: float | None = None
     bid: float | None = None

@@ -39,7 +39,32 @@ body {
   z-index: 0;
 }
 
-.top, main, .foot { position: relative; z-index: 1; }
+.top, main, .foot, .broker-banner { position: relative; z-index: 1; }
+
+.broker-banner {
+  margin: 0.4rem 1.5rem 0;
+  padding: 0.65rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border: 1px solid var(--line);
+}
+.broker-banner.ok {
+  color: #b8f5d8;
+  background: #0f2a20;
+  border-color: #1f6b56;
+}
+.broker-banner.warn {
+  color: #ffe3a1;
+  background: #2a2110;
+  border-color: #5a4a22;
+}
+.broker-banner.bad {
+  color: #ffc4c4;
+  background: #2a1414;
+  border-color: #6a2a2a;
+}
 
 .top {
   display: flex;
