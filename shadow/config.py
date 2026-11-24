@@ -33,9 +33,32 @@ class Settings(BaseSettings):
             return "https://api-capital.backend-capital.com"
         return "https://demo-api-capital.backend-capital.com"
 
+    @staticmethod
+    def _is_placeholder(value: str) -> bool:
+        v = (value or "").strip().lower()
+        if not v:
+            return True
+        placeholders = (
+            "your_api_key_here",
+            "your_email@example.com",
+            "your_api_key_password",
+            "changeme",
+            "xxx",
+            "todo",
+            "example",
+        )
+        return v in placeholders or v.startswith("your_")
+
     @property
     def has_credentials(self) -> bool:
-        return bool(self.capital_api_key and self.capital_identifier and self.capital_password)
+        """True only when real (non-placeholder) API credentials are set."""
+        if self._is_placeholder(self.capital_api_key):
+            return False
+        if self._is_placeholder(self.capital_identifier):
+            return False
+        if self._is_placeholder(self.capital_password):
+            return False
+        return True
 
 
 def load_yaml_config(path: Path | None = None) -> dict[str, Any]:

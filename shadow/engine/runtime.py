@@ -65,10 +65,10 @@ class ShadowRuntime:
                 await self.client.login()
                 state.connected = True
                 state.paper = False
+                state.error = None
                 await self._refresh_account()
                 positions = await self.client.get_positions()
                 self.handover.seed_baseline(positions)
-                # Load real candles
                 raw = await self.client.get_prices(
                     state.epic,
                     "MINUTE",
@@ -83,16 +83,20 @@ class ShadowRuntime:
                     else "Pieslēgts Capital.com — aktīvs."
                 )
             except Exception as exc:  # noqa: BLE001
-                logger.exception("Capital login failed — paper mode")
-                state.error = f"API login failed: {exc}"
+                # 401 = wrong key/password — expected until user registers real creds
+                logger.warning("Capital login failed (%s) — paper mode", exc)
+                state.error = "Capital.com 401 — pārbaudi API key / e-pastu / API paroli dashboard reģistrācijā."
                 state.paper = True
                 state.connected = False
-                state.message = "Paper režīms (API nav pieejams). Spied «Simulēt pirmo treidu»."
+                state.message = (
+                    "API pieteikšanās neizdevās. Atver «Reģistrācija» un ievadi īstos Capital.com datus."
+                )
                 self.client = None
         else:
+            state.error = None
             state.message = (
-                "Paper režīms — ievadi API atslēgas iestatījumos. "
-                "Vai spied «Simulēt pirmo treidu» lai redzētu handover."
+                "Paper režīms — reģistrējies dashboardā ar Capital.com API, "
+                "vai spied «Simulēt pirmo treidu»."
             )
 
         self._stop.clear()

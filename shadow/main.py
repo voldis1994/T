@@ -12,7 +12,8 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
-from shadow.config import config, settings, state
+from shadow.auth_store import registration_status, save_credentials
+from shadow.config import ROOT, Settings, config, settings, state
 from shadow.engine.runtime import ShadowRuntime
 
 logging.basicConfig(
@@ -41,12 +42,13 @@ app.mount("/static", StaticFiles(directory=DASHBOARD / "static"), name="static")
 
 
 class CredsBody(BaseModel):
-    api_key: str
-    identifier: str
-    password: str
+    api_key: str = Field(min_length=4)
+    identifier: str = Field(min_length=3)
+    password: str = Field(min_length=4)
     env: str = "demo"
     epic: str | None = None
     size: float | None = None
+    persist: bool = True
 
 
 class HandoverBody(BaseModel):
@@ -55,6 +57,56 @@ class HandoverBody(BaseModel):
 
 class NewsBody(BaseModel):
     risk: str = Field(default="ok", pattern="^(ok|high|blocked)$")
+
+
+async def _apply_credentials(body: CredsBody) -> dict[str, Any]:
+    """Save (optional) + hot-reload runtime with new Capital.com session."""
+    global runtime
+    assert runtime
+
+    if Settings._is_placeholder(body.api_key) or Settings._is_placeholder(body.identifier) or Settings._is_placeholder(body.password):
+        return {
+            "ok": False,
+            "error": "placeholder_credentials",
+            "message": "Ievadi īstos Capital.com API datus, nevis piemēra tekstu.",
+        }
+
+    if body.persist:
+        save_credentials(
+            api_key=body.api_key,
+            identifier=body.identifier,
+            password=body.password,
+            env=body.env,
+            epic=body.epic,
+            size=body.size,
+        )
+
+    settings.capital_api_key = body.api_key.strip()
+    settings.capital_identifier = body.identifier.strip()
+    settings.capital_password = body.password.strip()
+    settings.capital_env = body.env.strip().lower()
+    if body.epic:
+        settings.shadow_epic = body.epic.strip()
+        config.setdefault("instrument", {})["epic"] = body.epic.strip()
+    if body.size:
+        settings.shadow_size = float(body.size)
+        config.setdefault("risk", {})["default_size"] = float(body.size)
+
+    await runtime.stop()
+    runtime = ShadowRuntime(config, settings)
+    await runtime.start()
+
+    ok = bool(state.connected and not state.paper)
+    return {
+        "ok": ok,
+        "connected": state.connected,
+        "paper": state.paper,
+        "message": state.message,
+        "error": state.error,
+        "registration": registration_status(settings),
+        "persisted": body.persist,
+        "env_path": str(ROOT / ".env") if body.persist else None,
+    }
 
 
 @app.get("/")
@@ -70,7 +122,33 @@ async def health() -> dict[str, Any]:
 @app.get("/api/state")
 async def get_state() -> dict[str, Any]:
     assert runtime
-    return runtime.snapshot()
+    snap = runtime.snapshot()
+    snap["registration"] = registration_status(settings)
+    return snap
+
+
+@app.get("/api/registration")
+async def get_registration() -> dict[str, Any]:
+    return {
+        "ok": True,
+        **registration_status(settings),
+        "connected": state.connected,
+        "paper": state.paper,
+        "message": state.message,
+        "error": state.error,
+    }
+
+
+@app.post("/api/register")
+async def register_account(body: CredsBody) -> dict[str, Any]:
+    """Dashboard self-registration: save API creds to .env and connect."""
+    return await _apply_credentials(body)
+
+
+@app.post("/api/credentials")
+async def set_credentials(body: CredsBody) -> dict[str, Any]:
+    """Alias for register — hot-reload credentials."""
+    return await _apply_credentials(body)
 
 
 @app.post("/api/handover/simulate")
@@ -83,27 +161,6 @@ async def simulate_handover(body: HandoverBody) -> dict[str, Any]:
 async def reset_handover() -> dict[str, Any]:
     assert runtime
     return await runtime.reset_handover()
-
-
-@app.post("/api/credentials")
-async def set_credentials(body: CredsBody) -> dict[str, Any]:
-    """Hot-reload credentials and reconnect (saved in process memory only)."""
-    global runtime
-    assert runtime
-    settings.capital_api_key = body.api_key
-    settings.capital_identifier = body.identifier
-    settings.capital_password = body.password
-    settings.capital_env = body.env
-    if body.epic:
-        settings.shadow_epic = body.epic
-        config.setdefault("instrument", {})["epic"] = body.epic
-    if body.size:
-        settings.shadow_size = body.size
-        config.setdefault("risk", {})["default_size"] = body.size
-    await runtime.stop()
-    runtime = ShadowRuntime(config, settings)
-    await runtime.start()
-    return {"ok": True, "connected": state.connected, "paper": state.paper, "message": state.message}
 
 
 @app.post("/api/news")
@@ -135,9 +192,12 @@ async def ws_feed(ws: WebSocket) -> None:
     await ws.accept()
     q = await runtime.subscribe()
     try:
-        await ws.send_json(runtime.snapshot())
+        snap = runtime.snapshot()
+        snap["registration"] = registration_status(settings)
+        await ws.send_json(snap)
         while True:
             payload = await q.get()
+            payload["registration"] = registration_status(settings)
             await ws.send_json(payload)
     except WebSocketDisconnect:
         pass

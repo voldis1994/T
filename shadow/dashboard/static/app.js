@@ -1,9 +1,10 @@
-/* SHADOW dashboard — live WS feed + canvas chart */
+/* SHADOW dashboard — live WS + self-registration */
 
 const $ = (id) => document.getElementById(id);
 
 let state = null;
 let ws = null;
+let regDismissed = sessionStorage.getItem("shadow_reg_skip") === "1";
 
 function fmt(n, d = 5) {
   if (n == null || Number.isNaN(n)) return "—";
@@ -30,6 +31,36 @@ function setPill(el, text, cls) {
   el.className = `pill ${cls}`;
 }
 
+function showRegOverlay(show) {
+  const el = $("regOverlay");
+  if (!el) return;
+  if (show) el.removeAttribute("hidden");
+  else el.setAttribute("hidden", "");
+}
+
+function updateRegistrationUI(s) {
+  const reg = s.registration || {};
+  const registered = !!reg.registered;
+  const connected = !!s.connected && !s.paper;
+
+  $("regBadge").textContent = connected
+    ? "Pieslēgts"
+    : registered
+      ? "Reģistrēts · nav savienots"
+      : "Nav reģistrēts";
+  $("regConnected").textContent = connected ? "LIVE/DEMO API" : s.paper ? "PAPER" : "OFF";
+  $("regIdent").textContent = reg.identifier_masked || "—";
+  $("regKey").textContent = reg.api_key_masked || "—";
+  $("regEnv").textContent = (reg.connected_env || "demo").toUpperCase();
+
+  // Auto-open registration if not registered and user hasn't skipped this session
+  if (!registered && !regDismissed && !connected) {
+    showRegOverlay(true);
+  } else if (connected) {
+    showRegOverlay(false);
+  }
+}
+
 function render(s) {
   $("epic").textContent = s.epic || "EURUSD";
   $("price").textContent = fmt(s.last_price);
@@ -53,7 +84,11 @@ function render(s) {
   else if (mode === "active") setPill($("modePill"), "LIVE ACTIVE", "active");
   else setPill($("modePill"), mode.toUpperCase(), "dim");
 
-  setPill($("connPill"), s.connected ? "API CONNECTED" : s.paper ? "PAPER" : "OFFLINE", s.connected ? "active" : "dim");
+  setPill(
+    $("connPill"),
+    s.connected ? "API CONNECTED" : s.paper ? "PAPER" : "OFFLINE",
+    s.connected ? "active" : "dim"
+  );
   setPill($("sessionPill"), (s.session || "off").toUpperCase(), s.session === "off" ? "dim" : "active");
 
   $("bal").textContent = money(s.account_balance);
@@ -63,16 +98,17 @@ function render(s) {
   $("net").textContent = money(s.stats?.net_pnl);
   $("openN").textContent = String(s.stats?.open ?? (s.open_positions || []).length);
 
-  // Gates
+  updateRegistrationUI(s);
+
   const gates = s.last_decision?.gates || [];
   $("gates").innerHTML = gates
     .map(
-      (g) => `<li class="${g.ok ? "ok" : "bad"}"><span><i class="dot ${g.ok ? "ok" : "bad"}"></i>${g.gate}</span><span class="mono muted">${g.detail || (g.ok ? "pass" : "fail")}</span></li>`
+      (g) =>
+        `<li class="${g.ok ? "ok" : "bad"}"><span><i class="dot ${g.ok ? "ok" : "bad"}"></i>${g.gate}</span><span class="mono muted">${g.detail || (g.ok ? "pass" : "fail")}</span></li>`
     )
     .join("");
   $("reasons").textContent = (s.last_decision?.reasons || []).join(" · ");
 
-  // Brackets
   const b = s.last_decision?.brackets;
   if (b) {
     $("brackets").className = "brackets";
@@ -88,7 +124,6 @@ function render(s) {
     $("brackets").textContent = "Nav aktīva setup";
   }
 
-  // Positions
   const rows = (s.open_positions || [])
     .map((item) => {
       const p = item.position || item;
@@ -105,19 +140,18 @@ function render(s) {
     .join("");
   $("positions").innerHTML = rows || `<tr><td colspan="7" class="muted">Nav atvērtu pozīciju</td></tr>`;
 
-  // Zones
-  $("zones").innerHTML = (s.zones || [])
-    .slice(0, 8)
-    .map(
-      (z) => `<div class="zone ${z.kind}">
+  $("zones").innerHTML =
+    (s.zones || [])
+      .slice(0, 8)
+      .map(
+        (z) => `<div class="zone ${z.kind}">
         <strong>${z.kind}</strong>
         <span class="mono">${fmt(z.bottom)} – ${fmt(z.top)}</span>
         <span class="mono">Q ${fmt(z.quality, 2)} · T${z.touches}</span>
       </div>`
-    )
-    .join("") || `<div class="muted">Nav zonu</div>`;
+      )
+      .join("") || `<div class="muted">Nav zonu</div>`;
 
-  // Indicators
   const ind = s.indicators || {};
   $("indicators").innerHTML = [
     ["ATR", fmt(ind.atr)],
@@ -130,16 +164,23 @@ function render(s) {
     .map(([k, v]) => `<div><span>${k}</span><b class="mono">${v}</b></div>`)
     .join("");
 
-  // Log
   const dec = (s.decisions || []).slice(-12).reverse();
   const trades = (s.trades || []).slice(-8).reverse();
   $("log").innerHTML =
-    trades.map((t) => `<div>TRADE ${t.signal} @ ${fmt(t.brackets?.entry)} · ${t.regime} · conf ${fmt(t.confluence, 2)}</div>`).join("") +
-    dec.map((d) => `<div>${(d.ts || "").slice(11, 19)} ${d.signal} · ${d.regime} · ${fmt(d.confluence, 2)} · ${(d.reasons || []).slice(0, 3).join(",")}</div>`).join("");
+    trades
+      .map(
+        (t) =>
+          `<div>TRADE ${t.signal} @ ${fmt(t.brackets?.entry)} · ${t.regime} · conf ${fmt(t.confluence, 2)}</div>`
+      )
+      .join("") +
+    dec
+      .map(
+        (d) =>
+          `<div>${(d.ts || "").slice(11, 19)} ${d.signal} · ${d.regime} · ${fmt(d.confluence, 2)} · ${(d.reasons || []).slice(0, 3).join(",")}</div>`
+      )
+      .join("");
 
-  $("handoverAt").textContent = s.handover_detected_at
-    ? `Handover: ${s.handover_detected_at}`
-    : "";
+  $("handoverAt").textContent = s.handover_detected_at ? `Handover: ${s.handover_detected_at}` : "";
 
   drawChart(s);
 }
@@ -167,7 +208,10 @@ function drawChart(s) {
     return;
   }
 
-  const padL = 8, padR = 56, padT = 12, padB = 18;
+  const padL = 8,
+    padR = 56,
+    padT = 12,
+    padB = 18;
   const w = cssW - padL - padR;
   const h = cssH - padT - padB;
   const slice = candles.slice(-90);
@@ -182,7 +226,6 @@ function drawChart(s) {
   const xAt = (i) => padL + (i / (slice.length - 1)) * w;
   const yAt = (p) => padT + (1 - (p - lo) / span) * h;
 
-  // Zones
   for (const z of s.zones || []) {
     const y1 = yAt(z.top);
     const y2 = yAt(z.bottom);
@@ -197,7 +240,6 @@ function drawChart(s) {
     ctx.stroke();
   }
 
-  // Candles
   const cw = Math.max(2, (w / slice.length) * 0.65);
   slice.forEach((c, i) => {
     const x = xAt(i);
@@ -215,7 +257,6 @@ function drawChart(s) {
     ctx.fillRect(x - cw / 2, top, cw, bh);
   });
 
-  // Price line
   if (s.last_price != null) {
     const y = yAt(s.last_price);
     ctx.strokeStyle = "rgba(232,184,74,0.7)";
@@ -230,11 +271,13 @@ function drawChart(s) {
     ctx.fillText(fmt(s.last_price), padL + w + 6, y + 4);
   }
 
-  // SL/TP guides
   const br = s.last_decision?.brackets;
   if (br) {
     ctx.font = "10px IBM Plex Mono";
-    [[br.sl, "#ef6b6b", "SL"], [br.tp, "#3ecf8e", "TP"]].forEach(([p, col, lab]) => {
+    [
+      [br.sl, "#ef6b6b", "SL"],
+      [br.tp, "#3ecf8e", "TP"],
+    ].forEach(([p, col, lab]) => {
       if (p == null) return;
       const y = yAt(p);
       ctx.strokeStyle = col;
@@ -259,6 +302,40 @@ async function post(url, body) {
   return r.json();
 }
 
+function formPayload(form) {
+  const fd = new FormData(form);
+  return {
+    api_key: String(fd.get("api_key") || "").trim(),
+    identifier: String(fd.get("identifier") || "").trim(),
+    password: String(fd.get("password") || "").trim(),
+    env: fd.get("env") || "demo",
+    epic: fd.get("epic") || "EURUSD",
+    size: Number(fd.get("size") || 1000),
+    persist: true,
+  };
+}
+
+async function submitRegistration(form, statusEl) {
+  const payload = formPayload(form);
+  if (statusEl) statusEl.textContent = "Reģistrēju un pieslēdzos Capital.com…";
+  $("message").textContent = "Reģistrēju un pieslēdzos Capital.com…";
+  const res = await post("/api/register", payload);
+  const msg =
+    res.message ||
+    (res.ok ? "Reģistrācija OK — pieslēgts." : res.error || "Reģistrācija neizdevās");
+  if (statusEl) statusEl.textContent = msg;
+  $("message").textContent = msg;
+  $("credsHint").textContent = res.ok
+    ? "Reģistrācija saglabāta .env. Atver pirmo treidu Capital.com app — robots pārņems."
+    : msg + (res.error ? ` (${res.error})` : "");
+  if (res.ok) {
+    regDismissed = true;
+    sessionStorage.setItem("shadow_reg_skip", "1");
+    showRegOverlay(false);
+  }
+  return res;
+}
+
 $("btnHandoverBuy").onclick = async () => {
   $("message").textContent = "Simulē handover BUY…";
   const res = await post("/api/handover/simulate", { direction: "BUY" });
@@ -276,17 +353,30 @@ $("btnHandoverReset").onclick = async () => {
 
 $("credsForm").onsubmit = async (e) => {
   e.preventDefault();
-  const fd = new FormData(e.target);
-  $("message").textContent = "Pieslēdzas Capital.com…";
-  const res = await post("/api/credentials", {
-    api_key: fd.get("api_key"),
-    identifier: fd.get("identifier"),
-    password: fd.get("password"),
-    env: fd.get("env"),
-    epic: fd.get("epic"),
-    size: Number(fd.get("size") || 1000),
-  });
-  $("message").textContent = res.message || (res.ok ? "OK" : "Kļūda");
+  await submitRegistration(e.target, $("credsHint"));
+};
+
+$("regForm").onsubmit = async (e) => {
+  e.preventDefault();
+  const btn = $("regSubmit");
+  btn.disabled = true;
+  try {
+    await submitRegistration(e.target, $("regStatus"));
+  } finally {
+    btn.disabled = false;
+  }
+};
+
+$("regSkip").onclick = () => {
+  regDismissed = true;
+  sessionStorage.setItem("shadow_reg_skip", "1");
+  showRegOverlay(false);
+  $("message").textContent = "Paper režīms — vari reģistrēties jebkurā laikā ar pogu «Reģistrācija».";
+};
+
+$("btnOpenReg").onclick = () => {
+  regDismissed = false;
+  showRegOverlay(true);
 };
 
 document.querySelectorAll("[data-news]").forEach((btn) => {
@@ -301,7 +391,6 @@ setInterval(tickClock, 1000);
 tickClock();
 connect();
 
-// Fallback poll
 setInterval(async () => {
   if (ws && ws.readyState === 1) return;
   try {
