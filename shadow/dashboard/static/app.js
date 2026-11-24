@@ -38,23 +38,44 @@ function showRegOverlay(show) {
   else el.setAttribute("hidden", "");
 }
 
+function updateBrokerBanner(s) {
+  const el = $("brokerBanner");
+  if (!el) return;
+  const broker = s.broker || (s.connected ? "capital" : s.paper ? "paper" : "none");
+  if (s.connected && broker === "capital") {
+    el.className = "broker-banner ok";
+    el.textContent = `ĪSTS Capital.com (${(s.registration?.connected_env || "demo").toUpperCase()}) — orderi iet caur API. Epic: ${s.epic}`;
+  } else if (broker === "paper" || (s.allow_paper_trading && !s.connected)) {
+    el.className = "broker-banner warn";
+    el.textContent = "PAPER SIMULĀCIJA — šie NAV īsti Capital.com orderi. Reģistrē API, lai tirgotu īsti.";
+  } else {
+    el.className = "broker-banner bad";
+    el.textContent = "NAV ĪSTA TREIDA — Capital.com nav pieslēgts. Orderus nesūta. Atver Reģistrāciju.";
+  }
+}
+
 function updateRegistrationUI(s) {
   const reg = s.registration || {};
   const registered = !!reg.registered;
-  const connected = !!s.connected && !s.paper;
+  const connected = !!s.connected;
 
   $("regBadge").textContent = connected
-    ? "Pieslēgts"
+    ? "Capital.com pieslēgts"
     : registered
       ? "Reģistrēts · nav savienots"
       : "Nav reģistrēts";
-  $("regConnected").textContent = connected ? "LIVE/DEMO API" : s.paper ? "PAPER" : "OFF";
+  $("regConnected").textContent = connected
+    ? "CAPITAL API"
+    : s.trading_enabled
+      ? "PAPER"
+      : "ANALĪZE TIKAI";
   $("regIdent").textContent = reg.identifier_masked || "—";
   $("regKey").textContent = reg.api_key_masked || "—";
   $("regEnv").textContent = (reg.connected_env || "demo").toUpperCase();
 
-  // Auto-open registration if not registered and user hasn't skipped this session
-  if (!registered && !regDismissed && !connected) {
+  updateBrokerBanner(s);
+
+  if (!connected && !regDismissed) {
     showRegOverlay(true);
   } else if (connected) {
     showRegOverlay(false);
@@ -81,12 +102,13 @@ function render(s) {
   const mode = s.mode || "idle";
   if (mode === "waiting_handover") setPill($("modePill"), "WAITING HANDOVER", "wait");
   else if (mode === "paper") setPill($("modePill"), "PAPER ACTIVE", "paper");
-  else if (mode === "active") setPill($("modePill"), "LIVE ACTIVE", "active");
+  else if (mode === "analysis_only") setPill($("modePill"), "ANALYSIS ONLY", "dim");
+  else if (mode === "active") setPill($("modePill"), "CAPITAL ACTIVE", "active");
   else setPill($("modePill"), mode.toUpperCase(), "dim");
 
   setPill(
     $("connPill"),
-    s.connected ? "API CONNECTED" : s.paper ? "PAPER" : "OFFLINE",
+    s.connected ? "CAPITAL CONNECTED" : s.trading_enabled ? "PAPER" : "NO BROKER",
     s.connected ? "active" : "dim"
   );
   setPill($("sessionPill"), (s.session || "off").toUpperCase(), s.session === "off" ? "dim" : "active");

@@ -47,12 +47,20 @@ class ShadowRuntime:
     def using_paper(self) -> bool:
         return self.client is None
 
+    @property
+    def allow_paper(self) -> bool:
+        return bool(self.config.get("engine", {}).get("allow_paper_trading", False))
+
     async def start(self) -> None:
         state.started_at = datetime.now(timezone.utc).isoformat()
         state.epic = self.config.get("instrument", {}).get("epic", self.settings.shadow_epic)
+        state.allow_paper_trading = self.allow_paper
         state.paper = True
+        state.broker = "none"
+        state.trading_enabled = False
+        state.connected = False
         state.mode = "waiting_handover" if self.handover.enabled else "active"
-        state.message = "Gaida tavu pirmo treidu Capital.com app…" if self.handover.enabled else "Aktīvs"
+        state.message = "Gaida Capital.com pieslēgumu…"
 
         if self.settings.has_credentials:
             try:
@@ -65,6 +73,8 @@ class ShadowRuntime:
                 await self.client.login()
                 state.connected = True
                 state.paper = False
+                state.broker = "capital"
+                state.trading_enabled = True
                 state.error = None
                 await self._refresh_account()
                 positions = await self.client.get_positions()
@@ -77,27 +87,43 @@ class ShadowRuntime:
                 parsed = parse_capital_prices(raw)
                 if len(parsed) >= 40:
                     self.candles = parsed
+                env = self.settings.capital_env.upper()
                 state.message = (
-                    "Pieslēgts Capital.com. Atver pirmo treidu app — robots pārņems."
-                    if self.handover.enabled
-                    else "Pieslēgts Capital.com — aktīvs."
+                    f"ĪSTS Capital.com ({env}) pieslēgts. "
+                    "Atver pirmo treidu app — robots pārņems un tirgos caur API."
                 )
+                state.mode = "waiting_handover" if self.handover.enabled else "active"
             except Exception as exc:  # noqa: BLE001
-                # 401 = wrong key/password — expected until user registers real creds
-                logger.warning("Capital login failed (%s) — paper mode", exc)
-                state.error = "Capital.com 401 — pārbaudi API key / e-pastu / API paroli dashboard reģistrācijā."
+                logger.warning("Capital login failed (%s)", exc)
+                detail = str(exc)
+                if "401" in detail:
+                    detail = "401 Unauthorized — nepareizs API key, e-pasts vai API parole"
+                state.error = f"Capital.com login failed: {detail}"
                 state.paper = True
                 state.connected = False
+                state.broker = "none"
+                state.trading_enabled = False
+                state.mode = "analysis_only"
                 state.message = (
-                    "API pieteikšanās neizdevās. Atver «Reģistrācija» un ievadi īstos Capital.com datus."
+                    "NAV ĪSTA TREIDA — Capital.com nav pieslēgts. "
+                    "Reģistrējies dashboardā ar īstiem API datiem (DEMO vai LIVE)."
                 )
                 self.client = None
         else:
-            state.error = None
+            state.error = "Nav Capital.com API datu"
+            state.mode = "analysis_only"
             state.message = (
-                "Paper režīms — reģistrējies dashboardā ar Capital.com API, "
-                "vai spied «Simulēt pirmo treidu»."
+                "NAV ĪSTA TREIDA — vispirms reģistrē Capital.com API dashboardā. "
+                "Bez tā robots TIKAI analizē (orderus nesūta)."
             )
+            if self.allow_paper:
+                state.broker = "paper"
+                state.trading_enabled = True
+                state.mode = "waiting_handover" if self.handover.enabled else "paper"
+                state.message = (
+                    "PAPER SIMULĀCIJA (tests) — šie NAV Capital.com orderi. "
+                    "Reģistrē API, lai tirgotu īsti."
+                )
 
         self._stop.clear()
         self._task = asyncio.create_task(self._loop())
@@ -118,7 +144,7 @@ class ShadowRuntime:
         state.message = "Apturēts"
 
     async def simulate_handover(self, direction: str = "BUY") -> dict[str, Any]:
-        """Dashboard button: pretend user opened first trade (only while waiting)."""
+        """Open/seed first trade for handover. Uses Capital.com when connected."""
         if self.handover.active:
             msg = "Handover jau noticis — robots jau vada tirgu."
             state.message = msg
@@ -129,6 +155,14 @@ class ShadowRuntime:
                 "message": msg,
                 "dealId": self.handover.handover_deal_id,
             }
+        if not self.client and not self.allow_paper:
+            msg = (
+                "Nav Capital.com pieslēguma — īstus orderus nevar atvērt. "
+                "Reģistrē API dashboardā (vai atļauj paper config.yaml)."
+            )
+            state.message = msg
+            await self._broadcast()
+            return {"ok": False, "error": "capital_required", "message": msg}
         if self.client:
             size = float(self.config.get("risk", {}).get("default_size", 1000))
             resp = await self.client.open_position(state.epic, direction, size)
@@ -339,10 +373,27 @@ class ShadowRuntime:
             await self._maybe_execute(decision)
 
         state.stats = self._compute_stats()
-        if self.handover.waiting:
-            state.mode = "waiting_handover"
-        elif self.handover.active:
-            state.mode = "paper" if self.using_paper else "active"
+        if self.client:
+            if self.handover.waiting:
+                state.mode = "waiting_handover"
+            elif self.handover.active:
+                state.mode = "active"
+            state.broker = "capital"
+            state.trading_enabled = True
+            state.paper = False
+        elif self.allow_paper:
+            if self.handover.waiting:
+                state.mode = "waiting_handover"
+            elif self.handover.active:
+                state.mode = "paper"
+            state.broker = "paper"
+            state.trading_enabled = True
+            state.paper = True
+        else:
+            state.mode = "analysis_only"
+            state.broker = "none"
+            state.trading_enabled = False
+            state.paper = True
 
     def _advance_paper_market(self) -> None:
         """Append a new synthetic bar so paper mode evolves."""
@@ -372,6 +423,13 @@ class ShadowRuntime:
         brackets = decision.get("brackets")
         if not brackets:
             return
+        # Block fake "demo robot" trading unless Capital.com is connected
+        # (or paper explicitly allowed in config for tests).
+        if not self.client:
+            if not self.allow_paper:
+                return
+        if not state.trading_enabled:
+            return
         # One entry per candle timestamp
         bar_t = self.candles[-1].time
         if bar_t == self._last_signal_bar:
@@ -398,7 +456,8 @@ class ShadowRuntime:
                 if ref:
                     conf = await self.client.confirm(ref)
                     resp["confirm"] = conf
-            else:
+                trade_via = "capital"
+            elif self.allow_paper:
                 resp = self.paper.open_position(
                     state.epic,
                     direction,
@@ -406,6 +465,9 @@ class ShadowRuntime:
                     stop_level=brackets["sl"],
                     profit_level=brackets["tp"],
                 )
+                trade_via = "paper"
+            else:
+                return
             self._last_signal_bar = bar_t
             trade = {
                 "ts": datetime.now(timezone.utc).isoformat(),
@@ -414,10 +476,15 @@ class ShadowRuntime:
                 "resp": resp,
                 "confluence": decision.get("confluence"),
                 "regime": decision.get("regime"),
+                "via": trade_via,
             }
             state.trades = (state.trades + [trade])[-100:]
             self._log_trade(trade)
-            state.message = f"Atvērts {direction} @ {brackets['entry']} SL {brackets['sl']} TP {brackets['tp']}"
+            via_label = "Capital.com" if trade_via == "capital" else "PAPER"
+            state.message = (
+                f"[{via_label}] Atvērts {direction} @ {brackets['entry']} "
+                f"SL {brackets['sl']} TP {brackets['tp']}"
+            )
         except Exception as exc:  # noqa: BLE001
             logger.warning("execute failed: %s", exc)
             state.error = f"Order failed: {exc}"

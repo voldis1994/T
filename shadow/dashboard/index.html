@@ -41,10 +41,10 @@
         <label>Size<input name="size" type="number" value="1000" min="1" step="1" /></label>
         <div class="reg-actions">
           <button type="submit" class="btn primary" id="regSubmit">Reģistrēties un pieslēgt</button>
-          <button type="button" class="btn" id="regSkip">Turpināt paper režīmā</button>
+          <button type="button" class="btn" id="regSkip">Tikai analīze (bez orderiem)</button>
         </div>
       </form>
-      <p class="hint" id="regStatus">Bez reģistrācijas robots strādā paper (simulācija).</p>
+      <p class="hint" id="regStatus">Bez Capital.com API robots NETIRGO — tikai rāda analīzi.</p>
     </div>
   </div>
 
@@ -64,6 +64,10 @@
       <span id="clock" class="clock mono">--:--:-- UTC</span>
     </div>
   </header>
+
+  <div id="brokerBanner" class="broker-banner warn" role="status">
+    Pārbaudu Capital.com pieslēgumu…
+  </div>
 
   <main class="grid">
     <!-- Hero strip: price + signal -->
